@@ -28,7 +28,7 @@ const AppNav = ({ auth, setAuth }) => {
     <div className="navBar">
       <div className="navBar-content">
         <div className="navBar__logo">
-          <a href="#home"><img src="/images/logo.png" alt="" className="navBar__logo-logo" /></a>
+          <a href="#home"><img src="/images/logo.png" alt="Logo" className="navBar__logo-logo" /></a>
         </div>
         <div className="navBar__menu">
           <a href="#home">
@@ -48,10 +48,10 @@ const AppNav = ({ auth, setAuth }) => {
           </a>
           {auth.role === 'ADMIN' && (
             <>
-              <a onClick={openAdminModal} className="admin-panel-link">
+              <a href="#admin" onClick={openAdminModal} className="admin-panel-link">
                 <p>Админ Панель</p>
               </a>
-              <a onClick={handleLogout} className="logout-link">
+              <a href="#logout" onClick={handleLogout} className="logout-link">
                 <p>Выход из аккаунта</p>
               </a>
             </>
@@ -88,10 +88,10 @@ const AppNav = ({ auth, setAuth }) => {
         </a>
         {auth.role === 'ADMIN' && (
           <>
-            <a onClick={() => { openAdminModal(); toggleBurgerMenu(); }} className="admin-panel-link">
+            <a href="#admin" onClick={() => { openAdminModal(); toggleBurgerMenu(); }} className="admin-panel-link">
               <p>Админ Панель</p>
             </a>
-            <a onClick={handleLogout} className="logout-link">
+            <a href="#logout" onClick={handleLogout} className="logout-link">
               <p>Выход из аккаунта</p>
             </a>
           </>

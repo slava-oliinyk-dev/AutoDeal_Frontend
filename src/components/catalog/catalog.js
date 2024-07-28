@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./catalog.css";
-import jwtDecode from 'jwt-decode';
 import Slider from '../slider/slider';
 
 const AppCatalog = ({ auth }) => {

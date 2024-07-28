@@ -146,7 +146,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      const response = await axios.delete(`https://autoboy-new.vercel.app/users/deleteEmail`, {
+      await axios.delete(`https://autoboy-new.vercel.app/users/deleteEmail`, {
         params: { email: deleteEmail },
         headers: {
           Authorization: `Bearer ${auth.token}`
@@ -176,7 +176,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('equipment', JSON.stringify(equipment));
 
     try {
-      const response = await axios.post(`https://autoboy-new.vercel.app/car/`, formData, {
+      await axios.post(`https://autoboy-new.vercel.app/car/`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -222,7 +222,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      const response = await axios.post(`https://autoboy-new.vercel.app/reviews/add`, {
+      await axios.post(`https://autoboy-new.vercel.app/reviews/add`, {
         name: userName,
         date: reviewDate,
         text: reviewText
@@ -259,7 +259,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      const response = await axios.put(`https://autoboy-new.vercel.app/consultants/left/1`, formData, {
+      await axios.put(`https://autoboy-new.vercel.app/consultants/left/1`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -293,7 +293,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      const response = await axios.put(`https://autoboy-new.vercel.app/consultants/right/1`, formData, {
+      await axios.put(`https://autoboy-new.vercel.app/consultants/right/1`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
