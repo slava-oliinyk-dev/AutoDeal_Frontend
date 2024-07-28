@@ -117,7 +117,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://autoboy-new.vercel.app/users/register`,
         { email: registerEmail, password: registerPassword },
         {
@@ -126,7 +126,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
           }
         }
       );
-
+  
       setLoading(false);
       setRegisterEmail('');
       setRegisterPassword('');
@@ -136,7 +136,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
       setRegisterError('Ошибка создания админа');
     }
   };
-
+  
   const handleDelete = async () => {
     setDeleteError('');
     setDeleteSuccess('');

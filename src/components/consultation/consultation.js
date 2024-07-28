@@ -1,6 +1,6 @@
-import "./consultation.css";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './consultation.css';
 
 const AppConsultation = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,6 +11,20 @@ const AppConsultation = () => {
   const [errors, setErrors] = useState({ nameMethod: false, numberMethod: false, specialistMethod: false, timeMethod: false });
   const [consultants, setConsultants] = useState({ left: [], right: [] });
 
+  useEffect(() => {
+    const fetchConsultants = async () => {
+      try {
+        const leftResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getLeft`);
+        const rightResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getRight`);
+        setConsultants({ left: leftResponse.data, right: rightResponse.data });
+      } catch (error) {
+        console.error('Error fetching consultants', error);
+      }
+    };
+
+    fetchConsultants();
+  }, []);
+
   const openModal = async () => {
     const newErrors = {
       nameMethod: !nameMethod,
@@ -20,7 +34,7 @@ const AppConsultation = () => {
     };
     setErrors(newErrors);
 
-    if (nameMethod && numberMethod && specialistMethod && timeMethod) {
+    if (!Object.values(newErrors).includes(true)) {
       try {
         await sendConsultationData();
         setNameMethod('');
@@ -37,10 +51,10 @@ const AppConsultation = () => {
 
   const sendConsultationData = async () => {
     const data = {
-      nameMethod: String(nameMethod),
-      numberMethod: String(numberMethod),
-      specialistMethod: String(specialistMethod),
-      timeMethod: String(timeMethod)
+      nameMethod,
+      numberMethod,
+      specialistMethod,
+      timeMethod
     };
 
     try {
@@ -83,42 +97,26 @@ const AppConsultation = () => {
     }
   };
 
-  const [times, setTimes] = useState([]);
-  useEffect(() => {
-    const availableTimes = [
-      '09:00 - 09:30',
-      '09:30 - 10:00',
-      '10:00 - 10:30',
-      '10:30 - 11:00',
-      '11:00 - 11:30',
-      '11:30 - 12:00',
-      '12:00 - 12:30',
-      '12:30 - 13:00',
-      '13:00 - 13:30',
-      '13:30 - 14:00',
-      '14:00 - 14:30',
-      '14:30 - 15:00',
-      '15:00 - 15:30',
-      '15:30 - 16:00',
-      '16:00 - 16:30',
-      '16:30 - 17:00',
-      '17:00 - 17:30',
-      '17:30 - 18:00',
-    ];
-    setTimes(availableTimes);
-
-    const fetchConsultants = async () => {
-      try {
-        const leftResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getLeft`);
-        const rightResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getRight`);
-        setConsultants({ left: leftResponse.data, right: rightResponse.data });
-      } catch (error) {
-        console.error('Error fetching consultants', error);
-      }
-    };
-
-    fetchConsultants();
-  }, []);
+  const availableTimes = [
+    '09:00 - 09:30',
+    '09:30 - 10:00',
+    '10:00 - 10:30',
+    '10:30 - 11:00',
+    '11:00 - 11:30',
+    '11:30 - 12:00',
+    '12:00 - 12:30',
+    '12:30 - 13:00',
+    '13:00 - 13:30',
+    '13:30 - 14:00',
+    '14:00 - 14:30',
+    '14:30 - 15:00',
+    '15:00 - 15:30',
+    '15:30 - 16:00',
+    '16:00 - 16:30',
+    '16:30 - 17:00',
+    '17:00 - 17:30',
+    '17:30 - 18:00',
+  ];
 
   return (
     <div id="consultation" className="consultation">
@@ -165,7 +163,7 @@ const AppConsultation = () => {
                 onChange={handleTimeChange}
               >
                 <option value="" disabled hidden>Выберите удобное время</option>
-                {times.map((time, index) => (
+                {availableTimes.map((time, index) => (
                   <option key={index} value={time}>{time}</option>
                 ))}
               </select>
