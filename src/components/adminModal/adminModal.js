@@ -118,7 +118,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     setLoading(true);
     try {
       await axios.post(
-        `https://autoboy-new.vercel.app/users/register`,
+        `http://78.27.236.115:8000/users/register`,
         { email: registerEmail, password: registerPassword },
         {
           headers: {
@@ -146,7 +146,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      await axios.delete(`https://autoboy-new.vercel.app/users/deleteEmail`, {
+      await axios.delete(`http://78.27.236.115:8000/users/deleteEmail`, {
         params: { email: deleteEmail },
         headers: {
           Authorization: `Bearer ${auth.token}`
@@ -176,7 +176,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('equipment', JSON.stringify(equipment));
 
     try {
-      await axios.post(`https://autoboy-new.vercel.app/car/`, formData, {
+      await axios.post(`http://78.27.236.115:8000/car/`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -222,7 +222,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      await axios.post(`https://autoboy-new.vercel.app/reviews/add`, {
+      await axios.post(`http://78.27.236.115:8000/reviews/add`, {
         name: userName,
         date: reviewDate,
         text: reviewText
@@ -259,7 +259,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      await axios.put(`https://autoboy-new.vercel.app/consultants/left/1`, formData, {
+      await axios.put(`http://78.27.236.115:8000/consultants/left/1`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -293,7 +293,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      await axios.put(`https://autoboy-new.vercel.app/consultants/right/1`, formData, {
+      await axios.put(`http://78.27.236.115:8000/consultants/right/1`, formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'

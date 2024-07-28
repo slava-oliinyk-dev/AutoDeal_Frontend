@@ -21,7 +21,7 @@ const AppReviews = ({ auth }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`https://autoboy-new.vercel.app/reviews/get`);
+      const response = await axios.get(`http://78.27.236.115:8000/reviews/get`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews', error);
@@ -114,7 +114,7 @@ const AppReviews = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://autoboy-new.vercel.app/reviews/delete/${id}`, {
+      await axios.delete(`http://78.27.236.115:8000/reviews/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`
         }

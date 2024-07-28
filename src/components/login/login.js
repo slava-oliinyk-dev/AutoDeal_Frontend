@@ -41,7 +41,7 @@ const Login = ({ setAuth }) => {
     }
 
     try {
-      const response = await axios.post(`https://autoboy-new.vercel.app/users/login`, { email, password });
+      const response = await axios.post(`http://78.27.236.115:8000/users/login`, { email, password });
       const { jwt, role } = response.data;
       localStorage.setItem('token', jwt);
       localStorage.setItem('role', role);

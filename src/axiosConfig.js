@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-baseURL: 'https://autoboy-new.vercel.app',
+baseURL: 'http://78.27.236.115:8000',
   headers: {
     'Content-Type': 'application/json',
   },

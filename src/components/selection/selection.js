@@ -13,7 +13,7 @@ const AppSelection = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await fetch(`https://autoboy-new.vercel.app/telegram/accept`, {
+      const response = await fetch(`http://78.27.236.115:8000/telegram/accept`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
