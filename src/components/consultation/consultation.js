@@ -44,7 +44,7 @@ const AppConsultation = () => {
     };
 
     try {
-      await axios.post(`http://78.27.236.115:8000/telegram/consultation`, data);
+      await axios.post(`https://autoboy-new.vercel.app/telegram/consultation`, data);
     } catch (error) {
       console.error('Error sending consultation data', error);
     }
@@ -109,8 +109,8 @@ const AppConsultation = () => {
 
     const fetchConsultants = async () => {
       try {
-        const leftResponse = await axios.get(`http://78.27.236.115:8000/consultants/getLeft`);
-        const rightResponse = await axios.get(`http://78.27.236.115:8000/consultants/getRight`);
+        const leftResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getLeft`);
+        const rightResponse = await axios.get(`https://autoboy-new.vercel.app/consultants/getRight`);
         setConsultants({ left: leftResponse.data, right: rightResponse.data });
       } catch (error) {
         console.error('Error fetching consultants', error);

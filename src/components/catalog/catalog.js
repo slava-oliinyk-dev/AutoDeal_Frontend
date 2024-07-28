@@ -27,7 +27,7 @@ const AppCatalog = ({ auth }) => {
   useEffect(() => {
     const fetchCatalogItems = async () => {
       try {
-        const response = await axios.get(`http://78.27.236.115:8000car/get`);
+        const response = await axios.get(`https://autoboy-new.vercel.app/car/get`);
         setCatalogItems(response.data);
       } catch (error) {
         console.error("There was an error fetching the catalog items!", error);
@@ -87,7 +87,7 @@ const AppCatalog = ({ auth }) => {
     if (selectedItem) {
       setFullscreenImages(
         [selectedItem.photo1, selectedItem.photo2, selectedItem.photo3, selectedItem.photo4, selectedItem.photo5]
-        .filter(Boolean).map(photo => `http://78.27.236.115:8000/uploads/${photo}`)
+        .filter(Boolean).map(photo => `https://autoboy-new.vercel.app/uploads/${photo}`)
       );
       setFullscreenImageIndex(index);
       setIsFullscreen(true);
@@ -192,7 +192,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`http://78.27.236.115:8000/telegram/detailsCar`, {
+        await axios.post(`https://autoboy-new.vercel.app/telegram/detailsCar`, {
           contactMethod,
           contactInfo,
           carId: selectedItem.id
@@ -218,7 +218,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`http://78.27.236.115:8000/telegram/consultationCar`, {
+        await axios.post(`https://autoboy-new.vercel.app/telegram/consultationCar`, {
           contactMethod,
           contactInfo,
           carId: selectedItem.id,
@@ -238,7 +238,7 @@ const AppCatalog = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://78.27.236.115:8000/car/deleteId/${id}`, {
+      await axios.delete(`https://autoboy-new.vercel.app/car/deleteId/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCatalogItems(catalogItems.filter(item => item.id !== id));
