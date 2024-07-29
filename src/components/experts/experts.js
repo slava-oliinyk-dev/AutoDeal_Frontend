@@ -76,7 +76,7 @@ const AppExperts = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await axios.post(`/telegram/experts`, data, {
+      const response = await axios.post(`https://bytewaves.net/telegram/experts`, data, {
         headers: {
           'Content-Type': 'application/json'
         }

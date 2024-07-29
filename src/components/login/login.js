@@ -41,7 +41,7 @@ const Login = ({ setAuth }) => {
     }
 
     try {
-      const response = await axios.post(`/users/login`, { email, password });
+      const response = await axios.post(`https://bytewaves.net/users/login`, { email, password });
       const { jwt, role } = response.data;
       localStorage.setItem('token', jwt);
       localStorage.setItem('role', role);

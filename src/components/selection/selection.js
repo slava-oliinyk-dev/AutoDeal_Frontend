@@ -13,7 +13,7 @@ const AppSelection = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await fetch(`/telegram/accept`, {
+      const response = await fetch(`https://bytewaves.net/telegram/accept`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

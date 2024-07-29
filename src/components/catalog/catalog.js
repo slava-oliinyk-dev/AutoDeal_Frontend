@@ -18,7 +18,7 @@ const AppCatalog = ({ auth }) => {
   const [isConsultationThankYouModalOpen, setIsConsultationThankYouModalOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Новое состояние для полноэкранного слайдера
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fullscreenImages, setFullscreenImages] = useState([]);
   const [fullscreenImageIndex, setFullscreenImageIndex] = useState(0);
@@ -26,7 +26,7 @@ const AppCatalog = ({ auth }) => {
   useEffect(() => {
     const fetchCatalogItems = async () => {
       try {
-        const response = await axios.get(`/car/get`);
+        const response = await axios.get(`https://bytewaves.net/car/get`);
         setCatalogItems(response.data);
       } catch (error) {
         console.error("There was an error fetching the catalog items!", error);
@@ -86,7 +86,7 @@ const AppCatalog = ({ auth }) => {
     if (selectedItem) {
       setFullscreenImages(
         [selectedItem.photo1, selectedItem.photo2, selectedItem.photo3, selectedItem.photo4, selectedItem.photo5]
-        .filter(Boolean).map(photo => `/uploads/${photo}`)
+        .filter(Boolean).map(photo => `https://bytewaves.net/uploads/${photo}`)
       );
       setFullscreenImageIndex(index);
       setIsFullscreen(true);
@@ -191,7 +191,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`/telegram/detailsCar`, {
+        await axios.post(`https://bytewaves.net/telegram/detailsCar`, {
           contactMethod,
           contactInfo,
           carId: selectedItem.id
@@ -217,7 +217,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`/telegram/consultationCar`, {
+        await axios.post(`https://bytewaves.net/telegram/consultationCar`, {
           contactMethod,
           contactInfo,
           carId: selectedItem.id,
@@ -237,7 +237,7 @@ const AppCatalog = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/car/deleteId/${id}`, {
+      await axios.delete(`https://bytewaves.net/car/deleteId/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCatalogItems(catalogItems.filter(item => item.id !== id));

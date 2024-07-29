@@ -21,7 +21,7 @@ const AppReviews = ({ auth }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`/reviews/get`);
+      const response = await axios.get(`https://bytewaves.net/reviews/get`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews', error);
@@ -114,7 +114,7 @@ const AppReviews = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/reviews/delete/${id}`, {
+      await axios.delete(`https://bytewaves.net/reviews/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`
         }

@@ -14,8 +14,8 @@ const AppConsultation = () => {
   useEffect(() => {
     const fetchConsultants = async () => {
       try {
-        const leftResponse = await axios.get(`/consultants/getLeft`);
-        const rightResponse = await axios.get(`/consultants/getRight`);
+        const leftResponse = await axios.get(`https://bytewaves.net/consultants/getLeft`);
+        const rightResponse = await axios.get(`https://bytewaves.net/consultants/getRight`);
         setConsultants({ left: leftResponse.data, right: rightResponse.data });
       } catch (error) {
         console.error('Error fetching consultants', error);
@@ -58,7 +58,7 @@ const AppConsultation = () => {
     };
 
     try {
-      await axios.post(`/telegram/consultation`, data);
+      await axios.post(`https://bytewaves.net/telegram/consultation`, data);
     } catch (error) {
       console.error('Error sending consultation data', error);
     }
