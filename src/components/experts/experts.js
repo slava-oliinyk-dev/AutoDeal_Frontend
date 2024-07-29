@@ -16,8 +16,8 @@ const AppExperts = () => {
   useEffect(() => {
     const fetchConsultants = async () => {
       try {
-        const leftResponse = await axios.get(`http://78.27.236.115:8000/consultants/getLeft`);
-        const rightResponse = await axios.get(`http://78.27.236.115:8000/consultants/getRight`);
+        const leftResponse = await axios.get(`/consultants/getLeft`);
+        const rightResponse = await axios.get(`/consultants/getRight`);
         setLeftConsultant(leftResponse.data[0]);
         setRightConsultant(rightResponse.data[0]);
       } catch (error) {
@@ -76,7 +76,7 @@ const AppExperts = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await axios.post(`http://78.27.236.115:8000/telegram/experts`, data, {
+      const response = await axios.post(`/telegram/experts`, data, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -130,7 +130,7 @@ const AppExperts = () => {
         <div className="experts-content__experts">
           {leftConsultant && (
             <div className="experts-content__experts-card experts-card__one">
-              <img src={`http://78.27.236.115:8000/uploads/${leftConsultant.photo}`} alt={leftConsultant.name} />
+              <img src={`/uploads/${leftConsultant.photo}`} alt={leftConsultant.name} />
               <h3>{leftConsultant.name}</h3>
               <p>{leftConsultant.title}</p>
               <button onClick={() => openModal(leftConsultant)}>Связаться со мной</button>
@@ -138,7 +138,7 @@ const AppExperts = () => {
           )}
           {rightConsultant && (
             <div className="experts-content__experts-card experts-card__two">
-              <img src={`http://78.27.236.115:8000/uploads/${rightConsultant.photo}`} alt={rightConsultant.name} />
+              <img src={`/uploads/${rightConsultant.photo}`} alt={rightConsultant.name} />
               <h3>{rightConsultant.name}</h3>
               <p>{rightConsultant.title}</p>
               <button onClick={() => openModal(rightConsultant)}>Связаться со мной</button>

@@ -57,7 +57,7 @@ const AppMain = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await fetch(`http://78.27.236.115:8000/telegram/main`, {
+      const response = await fetch(`/telegram/main`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
