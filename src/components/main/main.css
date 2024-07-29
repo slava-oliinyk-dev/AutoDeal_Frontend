@@ -247,7 +247,7 @@ body {
   }
 }
 
-@media screen and (max-width: 1345px) {
+/* @media screen and (max-width: 1345px) {
   .main {
     position: relative;
     z-index: 2;
@@ -302,7 +302,7 @@ body {
   .heroSection-promo-year {
     margin-right: 50px;
   }
-}
+} */
 
 @media screen and (min-width: 768px) and (max-width: 1060px) {
   .main__fon {
