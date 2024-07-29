@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig'
 import "./catalog.css";
 import Slider from '../slider/slider';
 
@@ -26,7 +26,7 @@ const AppCatalog = ({ auth }) => {
   useEffect(() => {
     const fetchCatalogItems = async () => {
       try {
-        const response = await axios.get(`https://bytewaves.net/car/get`);
+        const response = await axiosInstance.get('/car/get');
         setCatalogItems(response.data);
       } catch (error) {
         console.error("There was an error fetching the catalog items!", error);
@@ -86,7 +86,7 @@ const AppCatalog = ({ auth }) => {
     if (selectedItem) {
       setFullscreenImages(
         [selectedItem.photo1, selectedItem.photo2, selectedItem.photo3, selectedItem.photo4, selectedItem.photo5]
-        .filter(Boolean).map(photo => `https://bytewaves.net/uploads/${photo}`)
+        .filter(Boolean).map(photo => '/uploads/${photo}')
       );
       setFullscreenImageIndex(index);
       setIsFullscreen(true);
@@ -191,7 +191,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`https://bytewaves.net/telegram/detailsCar`, {
+        await axiosInstance.post('/telegram/detailsCar', {
           contactMethod,
           contactInfo,
           carId: selectedItem.id
@@ -217,7 +217,7 @@ const AppCatalog = ({ auth }) => {
 
     if (contactMethod && contactInfo && validateContactInfo()) {
       try {
-        await axios.post(`https://bytewaves.net/telegram/consultationCar`, {
+        await axiosInstance.post('/telegram/consultationCar', {
           contactMethod,
           contactInfo,
           carId: selectedItem.id,
@@ -237,7 +237,7 @@ const AppCatalog = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://bytewaves.net/car/deleteId/${id}`, {
+      await axiosInstance.delete('/car/deleteId/${id}', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCatalogItems(catalogItems.filter(item => item.id !== id));

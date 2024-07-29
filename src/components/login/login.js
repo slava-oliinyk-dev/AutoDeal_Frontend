@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig'
 import { useNavigate } from 'react-router-dom';
 import './login.css';
 
@@ -41,7 +41,7 @@ const Login = ({ setAuth }) => {
     }
 
     try {
-      const response = await axios.post(`https://bytewaves.net/users/login`, { email, password });
+      const response = await axiosInstance.post('/users/login', { email, password });
       const { jwt, role } = response.data;
       localStorage.setItem('token', jwt);
       localStorage.setItem('role', role);

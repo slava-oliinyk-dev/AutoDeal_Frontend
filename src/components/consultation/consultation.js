@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig'
 import './consultation.css';
 
 const AppConsultation = () => {
@@ -14,8 +14,8 @@ const AppConsultation = () => {
   useEffect(() => {
     const fetchConsultants = async () => {
       try {
-        const leftResponse = await axios.get(`https://bytewaves.net/consultants/getLeft`);
-        const rightResponse = await axios.get(`https://bytewaves.net/consultants/getRight`);
+        const leftResponse = await axiosInstance.get('/consultants/getLeft');
+        const rightResponse = await axiosInstance.get('/consultants/getRight');
         setConsultants({ left: leftResponse.data, right: rightResponse.data });
       } catch (error) {
         console.error('Error fetching consultants', error);
@@ -58,7 +58,7 @@ const AppConsultation = () => {
     };
 
     try {
-      await axios.post(`https://bytewaves.net/telegram/consultation`, data);
+      await axiosInstance.post('/telegram/consultation', data);
     } catch (error) {
       console.error('Error sending consultation data', error);
     }

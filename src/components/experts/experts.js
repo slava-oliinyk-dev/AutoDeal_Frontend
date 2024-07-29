@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig'
 import './experts.css';
 
 const AppExperts = () => {
@@ -16,8 +16,8 @@ const AppExperts = () => {
   useEffect(() => {
     const fetchConsultants = async () => {
       try {
-        const leftResponse = await axios.get(`/consultants/getLeft`);
-        const rightResponse = await axios.get(`/consultants/getRight`);
+        const leftResponse = await axiosInstance.get(`/consultants/getLeft`);
+        const rightResponse = await axiosInstance.get(`/consultants/getRight`);
         setLeftConsultant(leftResponse.data[0]);
         setRightConsultant(rightResponse.data[0]);
       } catch (error) {
@@ -76,7 +76,7 @@ const AppExperts = () => {
 
   const sendDataToServer = async (data) => {
     try {
-      const response = await axios.post(`https://bytewaves.net/telegram/experts`, data, {
+      const response = await axiosInstance.post('/telegram/experts', data, {
         headers: {
           'Content-Type': 'application/json'
         }

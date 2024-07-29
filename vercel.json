@@ -9,6 +9,22 @@
   ],
   "routes": [
     {
+      "src": "/api/reviews/(.*)",
+      "dest": "https://bytewaves.net/reviews/$1"
+    },
+    {
+      "src": "/api/consultants/(.*)",
+      "dest": "https://bytewaves.net/consultants/$1"
+    },
+    {
+      "src": "/api/car/(.*)",
+      "dest": "https://bytewaves.net/car/$1"
+    },
+    {
+      "src": "/api/telegram/(.*)",
+      "dest": "https://bytewaves.net/telegram/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/build/index.html"
     }

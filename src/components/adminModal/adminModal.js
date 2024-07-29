@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosConfig'
 import './adminModal.css';
 
 const AdminModal = ({ isOpen, onClose, auth }) => {
@@ -117,8 +117,8 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      await axios.post(
-        `https://bytewaves.net/users/register`,
+      await axiosInstance.post(
+      '/users/register',
         { email: registerEmail, password: registerPassword },
         {
           headers: {
@@ -146,7 +146,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      await axios.delete(`https://bytewaves.net/users/deleteEmail`, {
+      await axiosInstance.delete('/users/deleteEmail', {
         params: { email: deleteEmail },
         headers: {
           Authorization: `Bearer ${auth.token}`
@@ -176,7 +176,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('equipment', JSON.stringify(equipment));
 
     try {
-      await axios.post(`https://bytewaves.net/car/`, formData, {
+      await axiosInstance.post('/car/', formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -222,7 +222,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     }
     setLoading(true);
     try {
-      await axios.post(`https://bytewaves.net/reviews/add`, {
+      await axiosInstance.post('/reviews/add', {
         name: userName,
         date: reviewDate,
         text: reviewText
@@ -259,7 +259,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      await axios.put(`https://bytewaves.net/consultants/left/1`, formData, {
+      await axios.put('/consultants/left/1', formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
@@ -293,7 +293,7 @@ const AdminModal = ({ isOpen, onClose, auth }) => {
     formData.append('photo', photo);
 
     try {
-      await axios.put(`https://bytewaves.net/consultants/right/1`, formData, {
+      await axios.put('/consultants/right/1', formData, {
         headers: {
           Authorization: `Bearer ${auth.token}`,
           'Content-Type': 'multipart/form-data'
