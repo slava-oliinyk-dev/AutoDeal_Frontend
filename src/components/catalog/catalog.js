@@ -85,7 +85,7 @@ const AppCatalog = ({ auth }) => {
     if (selectedItem) {
       setFullscreenImages(
         [selectedItem.photo1, selectedItem.photo2, selectedItem.photo3, selectedItem.photo4, selectedItem.photo5]
-        .filter(Boolean).map(photo => '/uploads/${photo}')
+        .filter(Boolean).map(photo => `/uploads/${photo}`)
       );
       setFullscreenImageIndex(index);
       setIsFullscreen(true);
@@ -237,7 +237,7 @@ const AppCatalog = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axiosInstance.delete('/car/deleteId/${id}', {
+      await axiosInstance.delete(`/car/deleteId/${id}`, { 
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setCatalogItems(catalogItems.filter(item => item.id !== id));
@@ -245,7 +245,7 @@ const AppCatalog = ({ auth }) => {
       console.error("There was an error deleting the catalog item!", error);
     }
   };
-
+  
   return (
     <div id="catalog" className="catalog">
       <div className="catalog-content">

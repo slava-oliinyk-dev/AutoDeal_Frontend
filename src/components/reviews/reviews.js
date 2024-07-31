@@ -114,12 +114,12 @@ const AppReviews = ({ auth }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axiosInstance.delete('/reviews/delete/${id}', {
+      await axiosInstance.delete(`/reviews/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${auth.token}`
         }
       });
-      setReviews(reviews.filter(review => review.id !== id)); // Update reviews state after deletion
+      setReviews(reviews.filter(review => review.id !== id)); 
     } catch (error) {
       console.error('Error deleting review', error);
     }
