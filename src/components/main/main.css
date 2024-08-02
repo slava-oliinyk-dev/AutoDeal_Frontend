@@ -1,7 +1,7 @@
 body {
   margin: 0;
   background-color: #212121;
-  font-size: 16px; /* Базовый размер шрифта */
+  font-size: 16px; 
 }
 
 .main {
@@ -32,7 +32,7 @@ body {
 
 .heroSection h1 {
   font-weight: 600;
-  font-size: 2.8125rem; /* 45px, использовано rem */
+  font-size: 2.8125rem; 
   color: #ffffff;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -42,18 +42,18 @@ body {
   color: #ffffff;
   margin-bottom: 60px;
   font-weight: 400;
-  font-size: 1.25rem; /* 20px, использовано rem */
+  font-size: 1.25rem;
 }
 
 .heroSection button {
   background: linear-gradient(to right, #fd5d27 0%, #ee3c00 100%);
-  font-size: 1.1875rem; /* 19px, использовано rem */
+  font-size: 1.1875rem;
   font-weight: 500;
   color: #ffffff;
   border: none;
   cursor: pointer;
   width: 80%;
-  max-width: 300px; /* Ограничение максимальной ширины */
+  max-width: 300px; 
   height: 50px;
   border-radius: 8px;
   box-shadow: 1px 1px 10px rgba(241, 67, 12, 0.8); 
@@ -63,14 +63,15 @@ body {
 
 .car {
   position: absolute;
-  top: -120px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -10px;
+  left: 600px;
+  width: 1100px;
+ 
 }
 
 .car img {
   width: 100%;
-  max-width: 1500px; /* Ограничение максимальной ширины */
+  max-width: 1500px;
   height: auto;
 }
 
@@ -90,7 +91,7 @@ body {
 }
 
 .heroSection-promo-year p, .heroSection-promo-car p {
-  font-size: 1.25rem; /* 20px, использовано rem */
+  font-size: 1.25rem;
 }
 
 .main-content__car-img {
@@ -231,23 +232,21 @@ body {
   .main {
     padding-top: 100px;
   }
+  .car {
+    width: 900px;
+  }
 }
 
-@media screen and (min-width: 1440px) and (max-width: 1720px) {
+@media screen and (min-width: 1040px) and (max-width: 1720px) {
   .main-content {
     width: 1300px;
-    margin-top: 50px;
+    margin-top: 10px;
   }
 }
 
-@media screen and (min-width: 1345px) and (max-width: 1440px) {
-  .main-content {
-    width: 1200px;
-    margin-top: 30px;
-  }
-}
 
-@media screen and (max-width: 1345px) {
+
+/* @media screen and (max-width: 1345px) {
   .main {
     position: relative;
     z-index: 2;
@@ -259,6 +258,9 @@ body {
     position: relative;
     width: auto;
     justify-content: center;
+  }
+  .heroSection button{
+    width: 250px;
   }
 
   .heroSection {
@@ -275,10 +277,10 @@ body {
     z-index: 3;
   }
 
-  .car {
-    position: absolute;
-    z-index: 1;
-  }
+ .car{
+  margin-top: -100px;
+  left: 800px
+ }
   .main__fon {
     position: absolute;
     left: -1400px;
@@ -302,7 +304,7 @@ body {
   .heroSection-promo-year {
     margin-right: 50px;
   }
-}
+} */
 
 @media screen and (min-width: 768px) and (max-width: 1060px) {
   .main__fon {
@@ -316,6 +318,10 @@ body {
     top: 200px;
     width: 900px;
   }
+  .heroSection button{
+    width: 250px;
+  }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -327,24 +333,23 @@ body {
 
   .heroSection h1 {
     font-weight: 500;
-    font-size: 2.125rem; /* 34px, использовано rem */
+    font-size: 2.125rem; 
     margin-top: 30px;
     margin-bottom: 10px;
   }
+  
 
   .heroSection p {
     margin-bottom: 45px;
   }
 
-  .heroSection button {
-    width: 90%;
-    max-width: 400px;
-    margin-top: 40px;
+  .heroSection button{
+    width: 250px;
   }
 
   .main-content__car-img {
     left: -200px;
-    top: 200px;
+    top: 100px;
     width: 900px;
   }
 
