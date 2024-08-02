@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
+import axiosInstance from './axiosInstance';
 import './reviews.css';
 
 const AppReviews = ({ auth }) => {
@@ -21,10 +22,13 @@ const AppReviews = ({ auth }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('https://api.bytewaves.net/reviews/get'); 
+      console.log('Fetching reviews from:', `${axiosInstance.defaults.baseURL}/reviews/get`);
+      const response = await axiosInstance.get('/reviews/get'); 
+      console.log('Response data:', response.data);
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews', error);
+      setErrorMessage('Failed to load reviews.');
     }
   };
 
