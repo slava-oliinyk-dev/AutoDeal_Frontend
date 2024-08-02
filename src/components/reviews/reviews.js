@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
-import axiosInstance from '../../axiosConfig
+import axiosInstance from '../../axiosConfig';
 import './reviews.css';
 
 const AppReviews = ({ auth }) => {
