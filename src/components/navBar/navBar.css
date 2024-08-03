@@ -115,8 +115,11 @@
 .navBar__mobile-menu.open {
   display: flex;
 }
+.navBar__mobile{
+  padding-right: 10px;
+}
 
-@media screen and (max-width: 1350px) {
+@media screen and (max-width: 1050px) {
   .navBar-content {
     width: 100%;
     padding: 0 20px;

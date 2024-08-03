@@ -105,7 +105,7 @@ const AppMain = () => {
         <div className="heroSection">
           <h1>Ваш <span className="heroSection-highlight">надежный партнер</span> по<br /> доставке автомобилей из<br /> Европы, США и Китая</h1>
           <p>Получите скидку 5% на первый заказ!</p>
-          <div>
+          <div className="button_main_img">
             <button onClick={openModal}><span>Оставить заявку</span></button>
             <img  className="heroSection-img" src="/images/кнопка.png" alt="" />
           </div>

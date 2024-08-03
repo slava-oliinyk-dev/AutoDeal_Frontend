@@ -1,7 +1,9 @@
 body {
   margin: 0;
-  background-color: #212121;
-  font-size: 16px; 
+  background-color: hsl(0, 0%, 13%);
+  font-size: 16px;
+  position: relative;
+  z-index: 1;
 }
 
 .main {
@@ -11,6 +13,9 @@ body {
   display: flex;
   justify-content: center;
   padding: 150px 20px 20px 20px;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .main-content {
@@ -18,8 +23,9 @@ body {
   max-width: 1500px;
   display: flex;
   justify-content: space-between;
-  position: relative;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 3;
 }
 
 .heroSection-highlight {
@@ -28,11 +34,12 @@ body {
 
 .heroSection {
   max-width: 800px;
+  z-index: 4; /* Ensure the hero section is above the car image */
 }
 
 .heroSection h1 {
   font-weight: 600;
-  font-size: 2.8125rem; 
+  font-size: 2.8125rem;
   color: #ffffff;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -53,25 +60,26 @@ body {
   border: none;
   cursor: pointer;
   width: 80%;
-  max-width: 300px; 
+  max-width: 300px;
   height: 50px;
   border-radius: 8px;
-  box-shadow: 1px 1px 10px rgba(241, 67, 12, 0.8); 
+  box-shadow: 1px 1px 10px rgba(241, 67, 12, 0.8);
   animation: slideInFromLeft 1s ease-out, pulse 2s infinite;
   transition: box-shadow 0.3s ease-in-out;
 }
 
 .car {
   position: absolute;
-  top: -10px;
-  left: 600px;
-  width: 1100px;
- 
+  top: 0;
+  left: 75%;
+  transform: translateX(-50%);
+  z-index: 1;
+  width: 100%;
+  max-width: 1500px;
 }
 
 .car img {
   width: 100%;
-  max-width: 1500px;
   height: auto;
 }
 
@@ -95,10 +103,12 @@ body {
 }
 
 .main-content__car-img {
+  width: 100%;
   position: absolute;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  z-index: 1;
 }
 
 .modal {
@@ -131,14 +141,14 @@ body {
 
 .main__modal-content h2 {
   font-weight: 600;
-  font-size: 1.875rem; /* 30px, использовано rem */
+  font-size: 1.875rem;
   margin-bottom: 10px;
   margin-top: 15px;
 }
 
 .main__modal-content p {
   font-weight: 400;
-  font-size: 1.125rem; /* 18px, использовано rem */
+  font-size: 1.125rem;
   margin-bottom: 30px;
 }
 
@@ -168,7 +178,7 @@ body {
 
 .modal-input-group input::placeholder, .modal-input-group select {
   color: #C1C1C1;
-  font-size: 1.0625rem; /* 17px, использовано rem */
+  font-size: 1.0625rem;
 }
 
 .modal-input-group__two button {
@@ -176,7 +186,7 @@ body {
   width: 100%;
   max-width: 300px;
   height: 44px;
-  font-size: 1.0625rem; /* 17px, использовано rem */
+  font-size: 1.0625rem;
   background: linear-gradient(to right, #fd5d27 0%, #ee3c00 100%);
   box-shadow: 0px 4px 8px rgba(241, 67, 12, 1);
   color: white;
@@ -237,137 +247,238 @@ body {
   }
 }
 
-@media screen and (min-width: 1040px) and (max-width: 1720px) {
+@media screen and (min-width: 1290px) and (max-width: 1720px) {
   .main-content {
     width: 1300px;
     margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
-
-
-/* @media screen and (max-width: 1345px) {
-  .main {
-    position: relative;
-    z-index: 2;
-  }
-
+@media screen and (max-width: 1289px) {
   .main-content {
-    display: flex;
-    z-index: 3;
+    width: 1200px;
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .car {
+    position: absolute;
+    top: 0;
+    left: 90%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 100%;
+    max-width: 1500px;
+  }
+  
+  .car img {
+    width: 80%;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 880px) and (max-width: 1088px) {
+  .main-content {
     position: relative;
-    width: auto;
-    justify-content: center;
-  }
-  .heroSection button{
-    width: 250px;
-  }
-
-  .heroSection {
-    z-index: 3;
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center; 
-    text-align: center; 
-  }
-
-  .heroSection h1, .heroSection p {
-    text-align: center;
     z-index: 3;
   }
-
- .car{
-  margin-top: -100px;
-  left: 800px
- }
-  .main__fon {
-    position: absolute;
-    left: -1400px;
-    top: 150px;
-    transform: scaleX(-1);
-  }
   .main-content__car-img {
-    left: -100px;
-    top: 200px;
-    width: 900px;
+    z-index: 1;
+    left: 430px;
+    top: 40px;
+    width: 500px;
   }
-
-  .heroSection-img {
-    display: none;
-  }
-
-  .heroSection-promo {
-    margin-left: auto 0;
-    max-width: 500px;
-  }
-  .heroSection-promo-year {
-    margin-right: 50px;
-  }
-} */
-
-@media screen and (min-width: 768px) and (max-width: 1060px) {
-  .main__fon {
-    position: absolute;
-    left: -1400px;
-    top: 150px;
-    transform: scaleX(-1);
-  }
-  .main-content__car-img {
-    left: -100px;
-    top: 200px;
-    width: 900px;
-  }
-  .heroSection button{
+  .heroSection button {
     width: 250px;
+  }
+  .main-content__car-img {
+    left: 430px;
+    top: 70px;
+
+
   }
 
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 879px) {
   .main-content {
     height: 100%;
     flex-direction: column;
     align-items: center;
+    z-index: 3;
   }
 
   .heroSection h1 {
     font-weight: 500;
-    font-size: 2.125rem; 
+    font-size: 2.125rem;
     margin-top: 30px;
     margin-bottom: 10px;
+    text-align: center;
+
   }
-  
 
   .heroSection p {
     margin-bottom: 45px;
+    text-align: center;
+
+
+  }
+  .heroSection-promo-year p, .heroSection-promo-car p{
+    font-size: 25px ;
+  
+  }
+  .heroSection-promo-year h1, .heroSection-promo-car h1{
+    font-size: 35px ;
+
+  }
+  .heroSection-promo{
+margin-top: 160px;
   }
 
-  .heroSection button{
+
+  .heroSection button {
     width: 250px;
   }
 
   .main-content__car-img {
-    left: -200px;
-    top: 100px;
-    width: 900px;
+    left: 300px;
+    top: 140px;
+
   }
+
 
   .main__fon {
     position: absolute;
-    left: -1400px;
+    left: 50px;
     top: 50px;
   }
 }
 
-@media screen and (max-width: 528px) {
+@media screen and (max-width: 800px) {
+  .main-content {
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: -30px;
+  }
+
+  .heroSection h1 {
+    font-weight: 500;
+    font-size: 2.125rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+
+  }
+
+  .heroSection p {
+    margin-bottom: 45px;
+    text-align: center;
+
+
+  }
+  .heroSection-promo-year p, .heroSection-promo-car p{
+    font-size: 25px ;
+  
+  }
+  .heroSection-promo-year h1, .heroSection-promo-car h1{
+    font-size: 35px ;
+
+  }
+  .heroSection-promo{
+margin-top: 160px;
+  }
+
+
+  .heroSection button {
+    width: 250px;
+  }
+
+  .main-content__car-img {
+    left: 300px;
+    top: 140px;
+
+  }
+.car{
+  width: 800px;
+}
+
+  .main__fon {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+  }
+}
+
+
+@media screen and (max-width: 700px) {
+  .main-content {
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+    margin-top: -30px;
+  }
+
+  .heroSection h1 {
+    font-weight: 500;
+    font-size: 2.125rem;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+
+  }
+
+  .heroSection p {
+    margin-bottom: 45px;
+    text-align: center;
+
+
+  }
+  .heroSection-promo-year p, .heroSection-promo-car p{
+    font-size: 25px ;
+  
+  }
+  .heroSection-promo-year h1, .heroSection-promo-car h1{
+    font-size: 35px ;
+
+  }
+  .heroSection-promo{
+margin-top: 160px;
+  }
+
+
+  .heroSection button {
+    width: 250px;
+  }
+
+  .main-content__car-img {
+    left: 300px;
+    top: 140px;
+  }
+.car{
+  width: 800px;
+}
+
+  .main__fon {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+  }}
+
+
+
+@media screen and (max-width: 568px) {
   .main-content {
     height: 100%;
   }
 
   .heroSection h1 {
     font-weight: 500;
-    font-size: 1.6875rem; /* 27px, использовано rem */
+    font-size: 1.6875rem;
     margin-top: 30px;
     margin-bottom: 10px;
   }
@@ -376,38 +487,37 @@ body {
     margin-bottom: 20px;
   }
 
-  .main-content__car-img {
-    left: -150px;
-  }
-
   .heroSection button {
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
     margin-top: 40px;
-  }
+    margin-bottom: 100px;
 
+  }
+  .button_main_img{
+   display: flex;
+   justify-content: center;
+  }
+.heroSection-img{
+  display: none;
+}
   .heroSection-promo {
-    margin-top: 20px;
+ display: none;
   }
 
   .main-content__car-img {
-    left: -200px;
-    top: 100px;
+    left: 300px;
+    top: 50px;
     width: 900px;
   }
 
-  .main__fon {
-    position: absolute;
-    left: -1300px;
-    top: 100px;
-  }
+  
 
   .heroSection-promo-year {
     margin-right: 10px;
   }
   .main__fon {
     position: absolute;
-    left: -1400px;
+
     top: 50px;
   }
   .main__modal-content {
@@ -416,21 +526,21 @@ body {
     padding: 20px;
     border-radius: 8px;
     position: relative;
-    width: 100%; 
+    width: 100%;
     max-width: 900px;
     margin: 20px;
   }
 
   .main__modal-content h2 {
     font-weight: 600;
-    font-size: 1.875rem; /* 30px, использовано rem */
+    font-size: 1.875rem;
     margin-bottom: 10px;
     margin-top: 15px;
   }
 
   .main__modal-content p {
     font-weight: 400;
-    font-size: 1.125rem; /* 18px, использовано rem */
+    font-size: 1.125rem;
     margin-bottom: 30px;
   }
 
@@ -460,14 +570,14 @@ body {
 
   .modal-input-group input::placeholder, .modal-input-group select {
     color: #C1C1C1;
-    font-size: 1.0625rem; /* 17px, использовано rem */
+    font-size: 1.0625rem;
   }
   .modal-input-group__two button {
     margin: 0 auto;
     width: 100%;
     max-width: 310px;
     height: 44px;
-    font-size: 1.0625rem; /* 17px, использовано rem */
+    font-size: 1.0625rem;
     background: linear-gradient(to right, #fd5d27 0%, #ee3c00 100%);
     box-shadow: 0px 4px 8px rgba(241, 67, 12, 1);
     color: white;
@@ -476,7 +586,7 @@ body {
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 480px) {
   .heroSection-promo-year {
     margin-right: 20px;
   }
@@ -484,69 +594,87 @@ body {
     margin-left: 0;
     width: 90%;
     max-width: 300px;
-    margin-bottom: 60px;
+    margin-bottom: 90px;
     height: 45px;
-    font-size: 1rem; /* 16px, использовано rem */
+    font-size: 1rem;
   }
   .heroSection h1 {
     font-weight: 500;
-    font-size: 1.5625rem; /* 25px, использовано rem */
-    margin-top: 80px;
+    font-size: 1.5625rem;
+    margin-top:20px;
     margin-bottom: 20px;
   }
 
   .heroSection p {
     margin-bottom: 0px;
-    font-size: 1.0625rem; /* 17px, использовано rem */
+    font-size: 1.0625rem;
+    font-weight: 500;
+ 
   }
   .heroSection-promo-year h1, .heroSection-promo-car h1 {
-    font-size: 1.5625rem; /* 25px, использовано rem */
+    font-size: 1.5625rem;
   }
   .main__fon {
     position: absolute;
-    left: -1400px;
+    left: -300px;
     top: 0px;
   }
   .main-content__car-img {
-    left: -300px;
-    top: 250px;
-    width: 600px;
+    left: 400px;
+    top: 0px;
+    width: 400px;
   }
 }
 
-@media screen and (max-width: 395px) {
+@media screen and (max-width: 442px) {
+  .main-content{
+    margin-top: 30px;
+  }
   .heroSection button {
     margin-left: 0;
     width: 90%;
     max-width: 300px;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
+
     height: 45px;
-    font-size: 1rem; /* 16px, использовано rem */
+    font-size: 1rem;
   }
   .heroSection h1 {
     font-weight: 500;
-    font-size: 1.375rem; /* 22px, использовано rem */
+    font-size: 1.275rem;
     margin-top: 30px;
     margin-bottom: 20px;
   }
+  .heroSection-promo {
 
+    display: block;
+    margin-top: 0px;
+    margin-left: 0 auto;
+     }
+     .heroSection-promo-year{
+     margin-right: 0px;
+       }
   .heroSection p {
     margin-bottom: 20px;
-    font-size: 1.0625rem; /* 17px, использовано rem */
+    font-size: 1.0625rem;
   }
   .heroSection-promo-year h1, .heroSection-promo-car h1 {
-    font-size: 1.5625rem; /* 25px, использовано rem */
+    font-size: 1.5625rem;
   }
 
   .main__fon {
     position: absolute;
-    left: -1400px;
+    left: -300px;
     top: -20px;
+    
   }
   .main-content__car-img {
-    left: -300px;
-    top: 200px;
-    width: 600px;
+    left: 500px;
+    top: 30px;
+    width: 200px;
+  }
+  .car{
+    width: 900px;
   }
   .modal {
     padding-top: 50px !important;
@@ -557,7 +685,7 @@ body {
     padding: 15px !important;
     border-radius: 8px;
     position: relative;
-    width: 100%; 
+    width: 100%;
     max-width: 900px;
     margin: 10px !important;
   }
@@ -570,96 +698,46 @@ body {
     max-width: 300px;
     margin-bottom: 40px;
     height: 45px;
-    font-size: 1rem; /* 16px, использовано rem */
+    font-size: 1rem;
   }
   .heroSection h1 {
     font-weight: 500;
-    font-size: 1.25rem; /* 20px, использовано rem */
+    font-size: 1.175rem;
     margin-top: 30px;
     margin-bottom: 20px;
+    font-size: 1.0625rem;
   }
 
   .heroSection p {
     margin-bottom: 20px;
-    font-size: 1.0625rem; /* 17px, использовано rem */
+    font-size: 1.0625rem;
+  
   }
   .heroSection-promo-year h1, .heroSection-promo-car h1 {
-    font-size: 1.5625rem; /* 25px, использовано rem */
+    font-size: 1.5625rem;
   }
 
   .main__fon {
     position: absolute;
-    left: -1400px;
+    left: -300px;
     top: -20px;
   }
   .main-content__car-img {
-    left: -300px;
-    top: 200px;
-    width: 600px;
+    left: 500px;
+    top: -20px;
+    width: 100px;
   }
-
+  .modal {
+    padding-top: 50px !important;
+  }
   .main__modal-content {
     text-align: center;
     background-color: white;
     padding: 15px !important;
     border-radius: 8px;
     position: relative;
-    width: 100%; 
+    width: 100%;
     max-width: 900px;
     margin: 10px !important;
-  }
-
-  .main__modal-content h2 {
-    font-weight: 600;
-    font-size: 1.5625rem; /* 25px, использовано rem */
-    margin-bottom: 10px;
-    margin-top: 15px;
-  }
-
-  .main__modal-content p {
-    font-weight: 400;
-    font-size: 1rem; /* 16px, использовано rem */
-    margin-bottom: 30px;
-  }
-
-  .close-button {
-    position: absolute;
-    top: 6px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 35px;
-    cursor: pointer;
-    color: #c7c5c5;
-  }
-
-  .modal-input-group input,
-  .modal-input-group select {
-    width: 100%;
-    max-width: 280px;
-    height: 35px;
-    margin-bottom: 25px;
-    border-style: none;
-    background-color: #F1F1F1;
-    border-radius: 8px;
-    box-shadow: 1px 4px 6px 0px rgba(0, 0, 0, 0.15);
-    padding-left: 20px;
-  }
-
-  .modal-input-group input::placeholder, .modal-input-group select {
-    color: #C1C1C1;
-    font-size: 1rem; /* 16px, использовано rem */
-  }
-  .modal-input-group__two button {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 280px;
-    height: 40px;
-    font-size: 1rem; /* 16px, использовано rem */
-    background: linear-gradient(to right, #fd5d27 0%, #ee3c00 100%);
-    box-shadow: 0px 4px 8px rgba(241, 67, 12, 1);
-    color: white;
-    margin-bottom: 35px;
-    cursor: pointer;
   }
 }
