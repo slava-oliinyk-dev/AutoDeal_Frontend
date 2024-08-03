@@ -29,3 +29,5 @@ const Slider = ({ images, openFullscreenImage, selectedItem }) => {
     </div>
   );
 };
+
+export default Slider;
