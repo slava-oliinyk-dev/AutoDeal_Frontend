@@ -1,18 +1,45 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# ===== Dependencies =====
+node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# ===== Build output =====
+dist/
+build/
+out/
+coverage/
 
-# testing
-/coverage
+# ===== Caches =====
+.cache/
+.parcel-cache/
+.eslintcache
+*.tsbuildinfo
 
-# production
-/build
+# ===== Env / secrets =====
+.env
+.env.*
+!.env.example
 
-
-
+# ===== Logs =====
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# ===== IDE =====
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+.idea/
+*.iml
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Local temp =====
+tmp/
+temp/
+*.swp
+*.swo

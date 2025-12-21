@@ -1,23 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://api.autoboyclub.net',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: { 'Content-Type': 'application/json' },
 });
-
-instance.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response && error.response.status === 401) {
-   
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
 
 export default instance;
