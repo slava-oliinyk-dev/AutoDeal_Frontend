@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Roboto Var";
+  src: url("../../../public/fonts/Roboto-VariableFont_wdth\,wght.ttf") format("truetype");
+  font-weight: 100 1000;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Roboto Var", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight: 400;
+}

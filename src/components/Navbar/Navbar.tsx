@@ -1,19 +1,32 @@
-import { useState, useEffect } from "react";
 import styles from "./Navbar.module.scss";
 
 const Navbar = () => {
   return (
-    <nav className={styles.nav}>
-      <div>logo</div>
-      <ul className={styles.menu}>
-        <li>Home</li>
-        <li>Catalog</li>
-        <li>Reviews</li>
-        <li>Contacts</li>
-        <li>Consultation</li>
-      </ul>
-      <button>Подбор авто</button>
-    </nav>
+    <header>
+      <nav className={styles.nav}>
+        <div className={styles.logo}>
+          <img src="/images/logoCar.png" alt="AutoDeal logo" />
+        </div>
+        <ul className={styles.menu}>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/catalog">Catalog</a>
+          </li>
+          <li>
+            <a href="/reviews">Reviews</a>
+          </li>
+          <li>
+            <a href="/contacts">Contacts</a>
+          </li>
+          <li>
+            <a href="/consultation">Consultation</a>
+          </li>
+        </ul>
+        <button className={styles.car_finder}>Car Finder</button>
+      </nav>
+    </header>
   );
 };
 

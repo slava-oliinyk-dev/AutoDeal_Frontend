@@ -1,9 +1,27 @@
 .nav {
   display: flex;
   justify-content: space-between;
+  background-color: #171717;
+  padding: 0.7rem 5rem;
 }
 
 .menu {
   display: flex;
   justify-content: space-between;
+  width: 31.25rem;
+
+  li {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.logo {
+  width: 5rem;
+}
+
+.car_finder {
+  border: 1.9px solid #fff;
+  border-radius: 6px;
+  padding: 0.1rem 1rem;
 }
