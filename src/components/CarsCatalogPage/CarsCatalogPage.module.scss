@@ -1,0 +1,220 @@
+@use "../../styles/abstracts/_variables" as v;
+@use "../../styles/abstracts/mixins" as m;
+
+.catalog {
+  width: 100%;
+}
+
+.titleFilter {
+  @include m.flexBetween;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.container {
+  @include m.container;
+  background-color: v.$color-white;
+}
+
+.main {
+  display: flex;
+}
+
+.title {
+  @include m.title;
+  font-weight: v.$weight-600;
+  color: v.$color-black;
+}
+
+.line {
+  height: 0.25rem;
+  background-color: v.$color-orange;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border-radius: 1.125rem;
+  overflow: hidden;
+  background: v.$color-black;
+  border: 0.0125rem solid rgba(243, 239, 239, 0.755);
+  box-shadow: 0 0.625rem 0.9375rem rgba(0, 0, 0, 0.55), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05);
+  transform: translateZ(0);
+  cursor: pointer;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.02);
+  transition: transform 240ms ease;
+}
+
+.badge {
+  position: absolute;
+  top: 0.875rem;
+  left: 0.875rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: v.$weight-700;
+  letter-spacing: 0.04em;
+  border-radius: 62.4375rem;
+  background: rgba(0, 0, 0, 0.55);
+  border: 0.0625rem solid rgba(255, 255, 255, 0.12);
+}
+
+.body {
+  padding: 1.125rem;
+}
+
+.cardTitle {
+  margin: 0 0 0.625rem;
+  font-size: 1.375rem;
+  font-weight: v.$weight-700;
+  line-height: 1.15;
+}
+
+.desc {
+  margin: 0 0 0.875rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.82;
+}
+
+.meta {
+  display: grid;
+  gap: 0.625rem;
+  padding: 0.875rem 0;
+  border-top: 0.0625rem solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.08);
+}
+
+.metaRow {
+  @include m.flexBetween;
+  font-size: 0.8125rem;
+}
+
+.metaLabel {
+  opacity: 0.7;
+}
+
+.metaValue {
+  font-weight: v.$weight-600;
+  opacity: 0.95;
+}
+
+.bottom {
+  @include m.flexBetween;
+  gap: 0.75rem;
+  padding-top: 0.875rem;
+}
+
+.price {
+  font-size: 1.125rem;
+  font-weight: v.$weight-700;
+  letter-spacing: -0.01em;
+}
+
+.actions {
+  display: flex;
+  gap: 0.625rem;
+}
+
+.btnPrimary,
+.btnGhost {
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: v.$weight-700;
+  cursor: pointer;
+  border: 0.0625rem solid rgba(255, 255, 255, 0.12);
+}
+
+.btnPrimary {
+  background: rgb(255, 255, 255);
+  color: v.$color-black;
+}
+
+.btnGhost {
+  background: transparent;
+}
+
+.card:hover .image {
+  transform: scale(1.08);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 1);
+}
+
+.btnPrimary:active {
+  transform: translateY(0);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.28);
+}
+
+.btnPrimary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.25), 0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.btnGhost:hover {
+  transform: translateY(-0.125rem);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.btnGhost:active {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btnGhost:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.18);
+}
+
+.btnGhost:hover {
+  transform: translateY(-0.125rem);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.btnGhost:active {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.loadMoreWrap {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.btnMore {
+  @include m.glow-button;
+  margin-top: 1.5rem;
+}
+
+.openBtn {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: #171717;
+}
