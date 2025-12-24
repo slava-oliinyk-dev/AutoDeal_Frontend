@@ -1,0 +1,157 @@
+.filtersContent {
+  width: min(92vw, 520px) !important;
+  padding: 16px !important;
+}
+
+.filtersBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: min(70vh, 640px);
+  overflow: auto;
+  padding-right: 6px;
+  color: #171717;
+}
+
+.section {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.sectionTitle {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 900;
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.input,
+.select {
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  padding: 0 10px;
+  outline: none;
+  background: #fff;
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+.hint {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+}
+
+.footer {
+  bottom: 0;
+  background: linear-gradient(to top, #fff 70%, rgba(255, 255, 255, 0));
+  padding-top: 10px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.reset {
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: #fff;
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.apply {
+  border: none;
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 11px 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@media (max-width: 420px) {
+  .filtersContent {
+    width: min(92vw, 460px) !important;
+  }
+
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.closeBtn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0.625rem 1.5rem rgba(0, 0, 0, 0.18);
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.closeBtn:hover {
+  transform: translateY(-0.0625rem);
+}

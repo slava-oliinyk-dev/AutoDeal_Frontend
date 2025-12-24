@@ -1,0 +1,277 @@
+@use "../../styles/abstracts/_variables" as v;
+
+/* Можно привязать к твоим переменным, если есть.
+   Если у тебя нет таких переменных — оставь как есть, это безопасные значения. */
+:root {
+  --filter-surface: #ffffff;
+  --filter-surface-2: #fafafa;
+  --filter-text: #111111;
+  --filter-muted: rgba(17, 17, 17, 0.65);
+  --filter-border: rgba(17, 17, 17, 0.1);
+  --filter-border-2: rgba(17, 17, 17, 0.14);
+  --filter-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.bar {
+  position: -webkit-sticky; /* Safari iOS < 13 */
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  background: var(--filter-surface);
+  border: 1px solid var(--filter-border);
+  border-radius: 16px;
+  box-shadow: var(--filter-shadow);
+
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--filter-border);
+}
+
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--filter-text);
+}
+
+.reset {
+  border: 1px solid var(--filter-border-2);
+  background: var(--filter-surface);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--filter-text);
+}
+
+.reset:hover {
+  background: var(--filter-surface-2);
+}
+
+.apply {
+  border: 1px solid transparent;
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.apply:hover {
+  filter: brightness(0.95);
+}
+
+/* ВАЖНО: вместо flex -> grid.
+   Это убирает “наезды” и красиво раскладывает секции. */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px 14px;
+  align-items: end;
+  padding-top: 12px;
+}
+
+/* Секция больше не должна иметь фикс min-width */
+.section {
+  min-width: 0; /* критично чтобы не распирало */
+  max-width: none;
+  background: transparent;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  min-width: 0;
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  opacity: 1;
+  color: var(--filter-muted);
+  margin: 0;
+}
+
+/* Два поля в ряд на норм ширине */
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--filter-muted);
+}
+
+.input,
+.select {
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+
+  border-radius: 12px;
+  border: 1px solid var(--filter-border-2);
+  padding: 0 10px;
+  outline: none;
+
+  background: #fff;
+  color: var(--filter-text);
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(17, 17, 17, 0.28);
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--filter-muted);
+}
+
+/* pills */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pill {
+  border: 1px solid var(--filter-border-2);
+  background: var(--filter-surface-2);
+  border-radius: 999px;
+  padding: 7px 10px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--filter-text);
+}
+
+.pill:hover {
+  background: #f2f2f2;
+}
+
+/* Fuel chips */
+.optionsInline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chipCheck {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid var(--filter-border-2);
+  border-radius: 999px;
+  padding: 7px 10px;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  background: var(--filter-surface-2);
+}
+
+.chipCheck:hover {
+  background: #f2f2f2;
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.chipText {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--filter-text);
+}
+
+/* segment */
+.segment {
+  display: inline-flex;
+  border: 1px solid var(--filter-border-2);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--filter-surface-2);
+}
+
+.segmentBtn {
+  border: none;
+  background: transparent;
+  padding: 9px 12px;
+  cursor: pointer;
+  font-weight: 800;
+  color: var(--filter-text);
+}
+
+.segmentBtn:hover {
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.segmentBtnActive {
+  background: rgba(17, 17, 17, 0.1);
+}
+
+/* ====== РЕСПОНСИВ ====== */
+
+/* чуть компактнее сетка */
+@media (max-width: 900px) {
+  .filters {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* на телефоне: topRow в колонку, кнопка во всю ширину, поля в 1 колонку */
+@media (max-width: 560px) {
+  .topRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .apply {
+    width: 100%;
+  }
+
+  .row2 {
+    grid-template-columns: 1fr; /* ключевой фикс “наезда” */
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

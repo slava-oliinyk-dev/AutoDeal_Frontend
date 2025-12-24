@@ -1,4 +1,4 @@
-import styles from "./Catalog.module.scss";
+import styles from "./CarsCatalogPreview.module.scss";
 import bmw from "../../assets/bmwCatalog.jpg";
 
 type CarCard = {
