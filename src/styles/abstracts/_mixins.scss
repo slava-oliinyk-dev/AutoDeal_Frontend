@@ -26,6 +26,25 @@
   }
 }
 
+@mixin modal-input {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: v.$color-white;
+  color: v.$color-black;
+  font: inherit;
+  outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 0.1rem rgba(248, 53, 25, 0.1);
+  }
+
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
 @mixin close-button {
   color: v.$color-white;
   background-color: v.$color-black;

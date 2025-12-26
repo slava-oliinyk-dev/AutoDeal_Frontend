@@ -74,6 +74,13 @@
   border: 0.0625rem solid rgba(255, 255, 255, 0.12);
 }
 
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
 .body {
   padding: 1.125rem;
 }

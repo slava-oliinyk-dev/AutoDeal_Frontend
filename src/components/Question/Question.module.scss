@@ -15,6 +15,11 @@
   padding: 3rem 5rem 4rem 5rem;
 }
 
+.error {
+  margin-bottom: 0.7rem;
+  color: v.$color-orange;
+}
+
 .title {
   color: v.$color-orange;
   font-size: 2rem;
@@ -25,37 +30,13 @@
   font-size: 1.06rem;
 }
 
+.close {
+  @include m.close-button;
+}
+
 .modal {
   padding: 1.5rem;
   text-align: center;
-}
-
-.close {
-  color: v.$color-white;
-  background-color: v.$color-black;
-  border-radius: 5px;
-  font-size: 14px;
-  padding: 6px 25px;
-  margin-top: 10px;
-  cursor: pointer;
-
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
-  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
-
-  &:hover {
-    filter: brightness(1.08);
-    box-shadow: 0 2px 10px rgba(31, 31, 31, 0.808);
-  }
-
-  &:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  &:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.65);
-    outline-offset: 2px;
-  }
 }
 
 .modalTitle {
@@ -89,23 +70,7 @@
 
 .input,
 .select {
-  width: 100%;
-  padding: 0.4rem 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  background: v.$color-white;
-  color: v.$color-black;
-  font: inherit;
-  outline: none;
-
-  &:focus {
-    border-color: rgba(248, 53, 25, 0.6);
-    box-shadow: 0 0 0 0.2rem rgba(248, 53, 25, 0.18);
-  }
-
-  &::placeholder {
-    color: rgba(0, 0, 0, 0.45);
-  }
+  @include m.modal-input;
 }
 
 .srOnly {
