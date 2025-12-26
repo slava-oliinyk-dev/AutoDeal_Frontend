@@ -11,6 +11,7 @@ import CarSelection from "../CarSelection/CarSelection";
 import Card from "../Card/Card";
 import Layout from "../Layout/Layout";
 import CarsCatalogPage from "../CarsCatalogPage/CarsCatalogPage";
+import Test from "../Test/Test";
 
 const Home = () => (
   <>
@@ -31,8 +32,9 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/dev" element={<Card />} />
+          <Route path="/cars/:id" element={<Card />} />
           <Route path="/catalog" element={<CarsCatalogPage />} />
+          <Route path="/test" element={<Test />} />
         </Route>
       </Routes>
     </Router>
