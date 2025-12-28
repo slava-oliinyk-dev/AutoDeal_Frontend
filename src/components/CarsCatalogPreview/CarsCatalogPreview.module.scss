@@ -59,6 +59,9 @@
 .close {
   @include m.close-button;
 }
+.error {
+  color: v.$color-black;
+}
 
 .accent {
   font-weight: v.$weight-600;

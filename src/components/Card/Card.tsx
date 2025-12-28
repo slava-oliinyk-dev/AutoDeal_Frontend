@@ -12,41 +12,9 @@ import "swiper/css/free-mode";
 import { useParams } from "react-router-dom";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { sendLead } from "../api/leads.api";
+import { getCarById, type CarDetails } from "../api/cars.api";
 
 type Step = "form" | "thanks";
-
-export type Car = {
-  id: number;
-  photo1: string;
-  photo2: string;
-  photo3: string;
-  photo4: string;
-  photo5: string;
-  name: string;
-  price: string;
-  seats: string;
-  body: string;
-  fuel: string;
-  lot: string;
-  mileage: string;
-  auction: string;
-  year: string;
-  color: string;
-  engine: string;
-  drive: string;
-  transmission: string;
-  state: string;
-  owners: string;
-  equipment: string[];
-  vin: string;
-  description: string;
-  status: string;
-  country: string;
-  city: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-};
 
 const Card = () => {
   const [open, setOpen] = useState(false);
@@ -55,7 +23,7 @@ const Card = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFsOpen, setIsFsOpen] = useState(false);
   const { id } = useParams();
-  const [car, setCar] = useState<Car | null>(null);
+  const [car, setCar] = useState<CarDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
@@ -66,7 +34,6 @@ const Card = () => {
     setEmail("");
     setError(null);
     setIsSubmitting(false);
-    setCar(null);
   };
 
   const handleOpenChange = (nextOpen: boolean) => {
@@ -74,7 +41,7 @@ const Card = () => {
     if (!nextOpen) resetModalState();
   };
 
-  const openModalForCar = (car: Car) => {
+  const openModalForCar = (car: CarDetails) => {
     setStep("form");
     setEmail("");
     setError(null);
@@ -121,30 +88,22 @@ const Card = () => {
     };
   }, [isFsOpen]);
 
-  const BACKEND = process.env.REACT_APP_BACKEND ?? "http://localhost:8000";
-
   useEffect(() => {
     if (!id) return;
 
-    async function loadCar() {
+    (async () => {
       try {
         setLoading(true);
         setError(null);
-
-        const res = await fetch(`${BACKEND}/cars/${id}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        const data: Car = await res.json();
+        const data = await getCarById(id);
         setCar(data);
       } catch (e) {
         setError(e instanceof Error ? e.message : "Unknown error");
       } finally {
         setLoading(false);
       }
-    }
-
-    loadCar();
-  }, [BACKEND, id]);
+    })();
+  }, [id]);
 
   const photos = useMemo(() => {
     if (!car) return [];

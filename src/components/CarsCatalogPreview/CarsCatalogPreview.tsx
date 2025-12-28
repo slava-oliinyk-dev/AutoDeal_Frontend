@@ -1,8 +1,8 @@
 import styles from "./CarsCatalogPreview.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCars, sendLead } from "../api/leads.api";
-import type { Car } from "../api/leads.api";
+import { getCars, type CarListItem } from "../api/cars.api";
+import { sendLead } from "../api/leads.api";
 import { Modal } from "../Ui/Modal/Modal";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 
@@ -12,11 +12,9 @@ const Catalog = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("form");
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-
-  const [cars, setCars] = useState<Car[]>([]);
+  const [selectedCar, setSelectedCar] = useState<CarListItem | null>(null);
+  const [cars, setCars] = useState<CarListItem[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +32,7 @@ const Catalog = () => {
     if (!nextOpen) resetModalState();
   };
 
-  const openModalForCar = (car: Car) => {
+  const openModalForCar = (car: CarListItem) => {
     setStep("form");
     setEmail("");
     setError(null);

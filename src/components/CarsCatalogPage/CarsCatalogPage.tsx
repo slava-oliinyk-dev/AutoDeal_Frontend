@@ -1,33 +1,26 @@
 import { useCallback, useEffect, useState } from "react";
 import styles from "./CarsCatalogPage.module.scss";
 import { useNavigate } from "react-router-dom";
-
 import CarsCatalogFiltersModal from "./CarsCatalogFiltersModal";
-import { getCars, getFilteredCars, sendLead } from "../api/leads.api";
-import type { Car } from "../api/leads.api";
-
+import { getCars, getFilteredCars, type CarListItem } from "../api/cars.api";
+import { sendLead } from "../api/leads.api";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { Modal } from "../Ui/Modal/Modal";
 
 type ContactStep = "form" | "thanks";
-
 const PAGE_SIZE = 9;
 
 const CarsCatalogPage = () => {
   const navigate = useNavigate();
-
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-
   const [contactOpen, setContactOpen] = useState(false);
   const [contactStep, setContactStep] = useState<ContactStep>("form");
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-
+  const [selectedCar, setSelectedCar] = useState<CarListItem | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-
-  const [cars, setCars] = useState<Car[]>([]);
+  const [cars, setCars] = useState<CarListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -63,7 +56,7 @@ const CarsCatalogPage = () => {
     if (!nextOpen) resetContact();
   };
 
-  const openModalForCar = (car: Car) => {
+  const openModalForCar = (car: CarListItem) => {
     setSelectedCar(car);
     setContactStep("form");
     setEmail("");
