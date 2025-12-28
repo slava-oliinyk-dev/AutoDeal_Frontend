@@ -16,10 +16,8 @@ const PAGE_SIZE = 9;
 const CarsCatalogPage = () => {
   const navigate = useNavigate();
 
-  // filters modal
   const [filtersOpen, setFiltersOpen] = useState(false);
 
-  // contact modal
   const [contactOpen, setContactOpen] = useState(false);
   const [contactStep, setContactStep] = useState<ContactStep>("form");
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
@@ -28,7 +26,6 @@ const CarsCatalogPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  // catalog data
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);

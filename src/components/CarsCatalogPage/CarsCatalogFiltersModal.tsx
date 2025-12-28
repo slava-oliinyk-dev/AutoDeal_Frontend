@@ -83,6 +83,8 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
       .filter(([, checked]) => checked)
       .map(([key]) => key);
 
+  const BACKEND = process.env.REACT_APP_BACKEND ?? "http://localhost:8000";
+
   const handleApply = async () => {
     const params = new URLSearchParams();
     if (filters.yearFrom) params.append("yearFrom", filters.yearFrom);
@@ -106,7 +108,7 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
     if (selectedSeats.length) params.append("seats", selectedSeats.join(","));
     if (selectedColor.length) params.append("color", selectedColor.join(","));
 
-    const url = `/backend/api?${params.toString()}`;
+    const url = `${BACKEND}/cars/filters?${params.toString()}`;
     try {
       await fetch(url, { method: "GET" });
       console.log(params.toString());
