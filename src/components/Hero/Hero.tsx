@@ -1,23 +1,46 @@
 import styles from "./Hero.module.scss";
 import stripe from "../../assets/orange-stripe.png";
-import Modal from "../Ui/Modal/Modal";
+import { Modal } from "../Ui/Modal/Modal";
 import { useState } from "react";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { sendLead } from "../api/leads.api";
 
+type Step = "form" | "thanks";
+
 const Hero = () => {
   const [open, setOpen] = useState(false);
+  const [step, setStep] = useState<Step>("form");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const resetModalState = () => {
+    setStep("form");
+    setEmail("");
+    setError(null);
+    setIsSubmitting(false);
+  };
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (!nextOpen) resetModalState();
+  };
+
+  const handleOpen = () => {
+    resetModalState();
+    setOpen(true);
+  };
+
+  const handleSubmit = async () => {
     if (isSubmitting) return;
-    e.preventDefault();
+
     setError(null);
 
     const emailError = validateEmail(email);
-    if (emailError) return setError(emailError);
+    if (emailError) {
+      setError(emailError);
+      return;
+    }
 
     try {
       setIsSubmitting(true);
@@ -27,9 +50,9 @@ const Hero = () => {
         email: normalizeEmail(email),
       });
 
-      setOpen(false);
+      setStep("thanks");
       setEmail("");
-    } catch (err) {
+    } catch {
       setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -47,10 +70,12 @@ const Hero = () => {
           Europe, the USA, and China
         </h1>
         <h2 className={styles.subtitle}>Get 5% off your first order!</h2>
+
         <div className={styles.button_container}>
-          <button onClick={() => setOpen(true)}>Request a quote</button>
+          <button onClick={handleOpen}>Request a quote</button>
           <img src={stripe} alt="orange stripe for style" />
         </div>
+
         <div className={styles.stats}>
           <div className={styles.stat}>
             <span className={styles.value}>11</span>
@@ -70,23 +95,44 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <Modal open={open} onOpenChange={setOpen}>
-        <form className={styles.modal} onSubmit={handleSubmit}>
-          <h2 className={styles.modalTitle}>Get 5% off your first order</h2>
-          <h3 className={styles.modalSubtitle}>To claim your 5% discount, please enter your email. We’ll reach out to confirm your request and share the details.</h3>
-          <input className={styles.modalInput} type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+      <Modal open={open} onOpenChange={handleOpenChange}>
+        {step === "form" ? (
+          <form
+            className={styles.modal}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <h2 className={styles.modalTitle}>Get 5% off your first order</h2>
+            <h3 className={styles.modalSubtitle}>To claim your 5% discount, please enter your email. We’ll reach out to confirm your request and share the details.</h3>
 
-          {error && <p className={styles.error}>{error}</p>}
+            <input className={styles.modalInput} type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
-          <div className={styles.modalButtonContainer}>
-            <button onClick={() => setOpen(false)} className={styles.modalCloseButton} disabled={isSubmitting}>
-              Close
-            </button>
-            <button className={styles.modalSubmitButton} disabled={isSubmitting}>
-              Submit
-            </button>
+            {error && <p className={styles.error}>{error}</p>}
+
+            <div className={styles.modalButtonContainer}>
+              <button type="button" onClick={() => handleOpenChange(false)} className={styles.modalCloseButton} disabled={isSubmitting}>
+                Close
+              </button>
+
+              <button className={styles.modalSubmitButton} type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className={styles.modal}>
+            <h2 className={styles.modalTitle}>Thank you! Your request has been received</h2>
+            <h3 className={styles.modalSubtitle}>We’ll contact you shortly to confirm the details and help you with your request.</h3>
+
+            <div className={styles.modalButtonContainer}>
+              <button type="button" onClick={() => handleOpenChange(false)} className={styles.modalCloseButton}>
+                Close
+              </button>
+            </div>
           </div>
-        </form>
+        )}
       </Modal>
     </section>
   );

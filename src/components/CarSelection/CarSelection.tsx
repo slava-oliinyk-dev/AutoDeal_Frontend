@@ -1,9 +1,68 @@
 import { useState } from "react";
-import Modal from "../Ui/Modal/Modal";
+import { Modal } from "../Ui/Modal/Modal";
 import styles from "./CarSelection.module.scss";
+import type { LeadType } from "../api/leads.api";
+import { sendLead } from "../api/leads.api";
+import { validateEmail } from "../../utils/validation";
+
+type LeadFormState = {
+  type: LeadType;
+  email: string;
+  carMake: string;
+  carBody: "";
+  carBudget: string;
+};
+
+const INITIAL_FORM: LeadFormState = {
+  type: "CAR_SEARCH",
+  email: "",
+  carMake: "",
+  carBody: "",
+  carBudget: "",
+};
 
 const CarSelection = () => {
   const [open, setOpen] = useState(false);
+  const [form, setForm] = useState<LeadFormState>(INITIAL_FORM);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const onChange = (key: keyof LeadFormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setError(null);
+    setForm((prev) => ({ ...prev, [key]: e.target.value }));
+  };
+
+  const handleSend = async () => {
+    if (isSubmitting) return;
+    setError(null);
+
+    const emailError = validateEmail(form.email);
+    if (emailError) return setError(emailError);
+
+    if (!form.carMake) return setError("Select a car make");
+    if (!form.carBody) return setError("Select a car body");
+    if (!form.carBudget) return setError("Select a car budget");
+
+    try {
+      setIsSubmitting(true);
+
+      await sendLead({
+        type: "CAR_SEARCH",
+        email: form.email.trim(),
+        carMake: form.carMake,
+        carBody: form.carBody,
+        carBudget: form.carBudget,
+      });
+      setOpen(true);
+      setForm(INITIAL_FORM);
+      setError(null);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section className={styles.selection}>
       <div className={styles.line}></div>
@@ -16,12 +75,18 @@ const CarSelection = () => {
             <span className={styles.accent}>”</span>
           </h3>
         </div>
-        <div className={styles.survey}>
+        <form
+          className={styles.survey}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSend();
+          }}
+        >
           <h3 className={styles.title}>Which car are you looking for?</h3>
           <label className={styles.srOnly} htmlFor="carMake">
             Car make
           </label>
-          <select id="carMake" className={styles.select} defaultValue="">
+          <select id="carMake" className={styles.select} defaultValue="" value={form.carMake} onChange={onChange("carMake")}>
             <option value="" disabled>
               Select car make
             </option>
@@ -45,7 +110,7 @@ const CarSelection = () => {
           <label className={styles.srOnly} htmlFor="bodyType">
             Body type
           </label>
-          <select id="bodyType" className={styles.select} defaultValue="">
+          <select id="bodyType" className={styles.select} defaultValue="" value={form.carBody} onChange={onChange("carBody")}>
             <option value="" disabled>
               Select body type
             </option>
@@ -65,7 +130,7 @@ const CarSelection = () => {
           <label className={styles.srOnly} htmlFor="budget">
             Turnkey budget
           </label>
-          <select id="budget" className={styles.select} defaultValue="">
+          <select id="budget" className={styles.select} defaultValue="" value={form.carBudget} onChange={onChange("carBudget")}>
             <option value="" disabled>
               Select turnkey budget
             </option>
@@ -83,23 +148,12 @@ const CarSelection = () => {
           <label className={styles.srOnly} htmlFor="contactMethod">
             Preferred contact method
           </label>
-          <select id="contactMethod" className={styles.select} defaultValue="">
-            <option value="" disabled>
-              Preferred contact method
-            </option>
-            <option value="phone">Phone</option>
-            <option value="email">Email</option>
-            <option value="telegram">Telegram</option>
-          </select>
+          <input id="contactMethod" className={styles.input} type="email" placeholder="Enter your email" value={form.email} autoComplete="email" onChange={onChange("email")}></input>
 
-          <label className={styles.srOnly} htmlFor="contactDetails">
-            Contact details
-          </label>
-          <input id="contactDetails" className={styles.input} type="text" placeholder="Enter your contact details" autoComplete="contact" />
-          <button onClick={() => setOpen(true)} className={styles.button}>
-            Get a free consultation
+          <button disabled={isSubmitting} className={styles.button} type="submit">
+            {isSubmitting ? "Sending..." : "Get a free consultation"}
           </button>
-        </div>
+        </form>
       </div>
       <Modal open={open} onOpenChange={setOpen}>
         <div className={styles.modal}>

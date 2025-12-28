@@ -12,7 +12,7 @@ type ModalProps = {
   closeClassName?: string;
 };
 
-const Modal = ({ open, onOpenChange, title, children, contentClassName, bodyClassName, closeClassName }: ModalProps) => {
+export const Modal = ({ open, onOpenChange, title, children, contentClassName, bodyClassName, closeClassName }: ModalProps) => {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
@@ -33,5 +33,3 @@ const Modal = ({ open, onOpenChange, title, children, contentClassName, bodyClas
     </Dialog.Root>
   );
 };
-
-export default Modal;

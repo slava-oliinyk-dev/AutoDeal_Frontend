@@ -1,4 +1,5 @@
-import Modal from "../Ui/Modal/Modal";
+import { useState } from "react";
+import { Modal } from "../Ui/Modal/Modal";
 import styles from "./CarsCatalogFiltersModal.module.scss";
 
 type Props = {
@@ -6,79 +7,199 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
+const fuelOptions = ["Petrol", "Diesel", "Hybrid", "Electric", "Plug-in Hybrid", "Hydrogen"];
+const transmissionOptions = ["Automatic", "Manual", "CVT", "Dual-Clutch", "Semi-Automatic"];
+const bodyOptions = ["Sedan", "Hatchback", "Wagon", "SUV", "Coupe", "Convertible", "Minivan", "Pickup"];
+const driveOptions = ["Front-wheel", "Rear-wheel", "All-wheel"];
+const seatOptions = ["2", "4", "5", "6", "7", "8+"];
+const colorOptions = ["Black", "White", "Gray", "Silver", "Blue", "Red", "Green", "Brown", "Beige", "Yellow", "Orange"];
+
+type CheckboxCategory = "fuel" | "transmission" | "body" | "drive" | "seats" | "color";
+
+const clampNumberValue = (value: string, min: number, max: number) => {
+  if (value === "") return "";
+  const numeric = Number(value);
+  if (Number.isNaN(numeric)) return "";
+  return Math.min(max, Math.max(min, numeric)).toString();
+};
+
+type FilterState = {
+  yearFrom: string;
+  yearTo: string;
+  mileageFrom: string;
+  mileageTo: string;
+  ownersFrom: string;
+  ownersTo: string;
+  fuel: Record<string, boolean>;
+  transmission: Record<string, boolean>;
+  body: Record<string, boolean>;
+  drive: Record<string, boolean>;
+  seats: Record<string, boolean>;
+  color: Record<string, boolean>;
+};
+
+const createCheckboxState = (options: string[]) => options.reduce<Record<string, boolean>>((acc, option) => ({ ...acc, [option]: false }), {});
+
+const createInitialState = (): FilterState => ({
+  yearFrom: "",
+  yearTo: "",
+  mileageFrom: "",
+  mileageTo: "",
+  ownersFrom: "",
+  ownersTo: "",
+  fuel: createCheckboxState(fuelOptions),
+  transmission: createCheckboxState(transmissionOptions),
+  body: createCheckboxState(bodyOptions),
+  drive: createCheckboxState(driveOptions),
+  seats: createCheckboxState(seatOptions),
+  color: createCheckboxState(colorOptions),
+});
+
 const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
+  const [filters, setFilters] = useState<FilterState>(() => createInitialState());
+
+  const toggleCheckbox = (category: CheckboxCategory, option: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      [category]: { ...prev[category], [option]: !prev[category][option] },
+    }));
+  };
+
+  const handleReset = () => {
+    setFilters(createInitialState());
+  };
+
+  const digitsOnly = (s: string) => s.replace(/\D/g, "");
+
+  const clampOnBlur = (value: string, min: number, max: number) => {
+    if (value === "") return "";
+    const n = Number(value);
+    if (Number.isNaN(n)) return "";
+    return String(Math.min(max, Math.max(min, n)));
+  };
+
+  const getSelected = (record: Record<string, boolean>) =>
+    Object.entries(record)
+      .filter(([, checked]) => checked)
+      .map(([key]) => key);
+
+  const handleApply = async () => {
+    const params = new URLSearchParams();
+    if (filters.yearFrom) params.append("yearFrom", filters.yearFrom);
+    if (filters.yearTo) params.append("yearTo", filters.yearTo);
+    if (filters.mileageFrom) params.append("mileageFrom", filters.mileageFrom);
+    if (filters.mileageTo) params.append("mileageTo", filters.mileageTo);
+    if (filters.ownersFrom) params.append("ownersFrom", filters.ownersFrom);
+    if (filters.ownersTo) params.append("ownersTo", filters.ownersTo);
+
+    const selectedFuel = getSelected(filters.fuel);
+    const selectedTransmission = getSelected(filters.transmission);
+    const selectedBody = getSelected(filters.body);
+    const selectedDrive = getSelected(filters.drive);
+    const selectedSeats = getSelected(filters.seats);
+    const selectedColor = getSelected(filters.color);
+
+    if (selectedFuel.length) params.append("fuel", selectedFuel.join(","));
+    if (selectedTransmission.length) params.append("transmission", selectedTransmission.join(","));
+    if (selectedBody.length) params.append("body", selectedBody.join(","));
+    if (selectedDrive.length) params.append("drive", selectedDrive.join(","));
+    if (selectedSeats.length) params.append("seats", selectedSeats.join(","));
+    if (selectedColor.length) params.append("color", selectedColor.join(","));
+
+    const url = `/backend/api?${params.toString()}`;
+    try {
+      await fetch(url, { method: "GET" });
+      console.log(params.toString());
+    } catch (error) {
+      console.error("Failed to send filters", error);
+    }
+    setFilters(createInitialState());
+    onOpenChange(false);
+  };
+
   return (
     <Modal open={open} onOpenChange={onOpenChange} title="Filters" contentClassName={styles.filtersContent} bodyClassName={styles.filtersBody} closeClassName={styles.closeBtn}>
       <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Price</h4>
-        <div className={styles.row2}>
-          <label className={styles.field}>
-            <span className={styles.label}>Min</span>
-            <input className={styles.input} placeholder="€ 0" inputMode="numeric" />
-          </label>
-          <label className={styles.field}>
-            <span className={styles.label}>Max</span>
-            <input className={styles.input} placeholder="€ 50,000" inputMode="numeric" />
-          </label>
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Make / Model</h4>
-        <div className={styles.row2}>
-          <label className={styles.field}>
-            <span className={styles.label}>Make</span>
-            <select className={styles.select} defaultValue="">
-              <option value="" disabled>
-                Select make
-              </option>
-              <option>Audi</option>
-              <option>BMW</option>
-              <option>Mercedes-Benz</option>
-              <option>Volkswagen</option>
-              <option>Porsche</option>
-              <option>Tesla</option>
-              <option>Toyota</option>
-              <option>Ford</option>
-              <option>Hyundai</option>
-              <option>Kia</option>
-            </select>
-          </label>
-
-          <label className={styles.field}>
-            <span className={styles.label}>Model</span>
-            <select className={styles.select} defaultValue="" disabled>
-              <option value="" disabled>
-                Select model
-              </option>
-            </select>
-            <span className={styles.hint}>Select a make first</span>
-          </label>
-        </div>
-      </div>
-
-      <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Year</h4>
         <div className={styles.row2}>
-          <input className={styles.input} placeholder="From 2005" inputMode="numeric" />
-          <input className={styles.input} placeholder="To 2025" inputMode="numeric" />
+          <input
+            className={styles.input}
+            type="text"
+            inputMode="numeric"
+            pattern="\d*"
+            placeholder="From 2005"
+            value={filters.yearFrom}
+            onChange={(e) => {
+              const raw = digitsOnly(e.target.value).slice(0, 4);
+              setFilters((prev) => ({ ...prev, yearFrom: raw }));
+            }}
+            onBlur={() => {
+              setFilters((prev) => ({
+                ...prev,
+                yearFrom: clampOnBlur(prev.yearFrom, 2005, 2026),
+              }));
+            }}
+          />
+
+          <input
+            className={styles.input}
+            type="text"
+            inputMode="numeric"
+            pattern="\d*"
+            placeholder="To 2026"
+            value={filters.yearTo}
+            onChange={(e) => {
+              const raw = digitsOnly(e.target.value).slice(0, 4);
+              setFilters((prev) => ({ ...prev, yearTo: raw }));
+            }}
+            onBlur={() => {
+              setFilters((prev) => ({
+                ...prev,
+                yearTo: clampOnBlur(prev.yearTo, 2005, 2026),
+              }));
+            }}
+          />
         </div>
       </div>
 
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Mileage</h4>
         <div className={styles.row2}>
-          <input className={styles.input} placeholder="From 0 km" inputMode="numeric" />
-          <input className={styles.input} placeholder="To 200,000 km" inputMode="numeric" />
+          <input
+            className={styles.input}
+            type="number"
+            placeholder="From 0 km"
+            inputMode="numeric"
+            min={0}
+            max={200000}
+            value={filters.mileageFrom}
+            onChange={(e) => {
+              const value = clampNumberValue(e.target.value, 0, 200000);
+              setFilters((prev) => ({ ...prev, mileageFrom: value }));
+            }}
+          />
+          <input
+            className={styles.input}
+            type="number"
+            placeholder="To 200,000 km"
+            inputMode="numeric"
+            min={0}
+            max={200000}
+            value={filters.mileageTo}
+            onChange={(e) => {
+              const value = clampNumberValue(e.target.value, 0, 200000);
+              setFilters((prev) => ({ ...prev, mileageTo: value }));
+            }}
+          />
         </div>
       </div>
 
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Fuel Type</h4>
         <div className={styles.chips}>
-          {["Petrol", "Diesel", "Hybrid", "Electric", "Plug-in Hybrid", "Hydrogen"].map((v) => (
+          {fuelOptions.map((v) => (
             <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
+              <input type="checkbox" className={styles.check} checked={filters.fuel[v]} onChange={() => toggleCheckbox("fuel", v)} />
               <span>{v}</span>
             </label>
           ))}
@@ -88,9 +209,9 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Transmission</h4>
         <div className={styles.chips}>
-          {["Automatic", "Manual", "CVT", "Dual-Clutch", "Semi-Automatic"].map((v) => (
+          {transmissionOptions.map((v) => (
             <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
+              <input type="checkbox" className={styles.check} checked={filters.transmission[v]} onChange={() => toggleCheckbox("transmission", v)} />
               <span>{v}</span>
             </label>
           ))}
@@ -100,9 +221,9 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Body Type</h4>
         <div className={styles.chips}>
-          {["Sedan", "Hatchback", "Wagon", "SUV", "Coupe", "Convertible", "Minivan", "Pickup"].map((v) => (
+          {bodyOptions.map((v) => (
             <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
+              <input type="checkbox" className={styles.check} checked={filters.body[v]} onChange={() => toggleCheckbox("body", v)} />
               <span>{v}</span>
             </label>
           ))}
@@ -112,9 +233,9 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Drive Type</h4>
         <div className={styles.chips}>
-          {["Front-wheel", "Rear-wheel", "All-wheel"].map((v) => (
+          {driveOptions.map((v) => (
             <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
+              <input type="checkbox" className={styles.check} checked={filters.drive[v]} onChange={() => toggleCheckbox("drive", v)} />
               <span>{v}</span>
             </label>
           ))}
@@ -122,68 +243,66 @@ const CarsCatalogFiltersModal = ({ open, onOpenChange }: Props) => {
       </div>
 
       <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Power (hp)</h4>
+        <h4 className={styles.sectionTitle}>Seats</h4>
+        <div className={styles.chips}>
+          {seatOptions.map((v) => (
+            <label key={v} className={styles.chip}>
+              <input type="checkbox" className={styles.check} checked={filters.seats[v]} onChange={() => toggleCheckbox("seats", v)} />
+              <span>{v}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h4 className={styles.sectionTitle}>Color</h4>
+        <div className={styles.chips}>
+          {colorOptions.map((v) => (
+            <label key={v} className={styles.chip}>
+              <input type="checkbox" className={styles.check} checked={filters.color[v]} onChange={() => toggleCheckbox("color", v)} />
+              <span>{v}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.section}>
+        <h4 className={styles.sectionTitle}>Owners</h4>
         <div className={styles.row2}>
-          <input className={styles.input} placeholder="From 90" inputMode="numeric" />
-          <input className={styles.input} placeholder="To 500" inputMode="numeric" />
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Condition</h4>
-        <div className={styles.chips}>
-          {["New", "Used", "Damaged"].map((v) => (
-            <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
-              <span>{v}</span>
-            </label>
-          ))}
-        </div>
-
-        <h4 className={styles.sectionTitle} style={{ marginTop: 12 }}>
-          Seller
-        </h4>
-        <div className={styles.chips}>
-          {["Dealer", "Private Seller"].map((v) => (
-            <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
-              <span>{v}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Location</h4>
-        <div className={styles.row2}>
-          <input className={styles.input} placeholder="City / ZIP code" />
-          <select className={styles.select} defaultValue="50">
-            <option value="10">10 km</option>
-            <option value="25">25 km</option>
-            <option value="50">50 km</option>
-            <option value="100">100 km</option>
-            <option value="200">200 km</option>
-          </select>
-        </div>
-      </div>
-
-      <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Features</h4>
-        <div className={styles.chips}>
-          {["Air Conditioning", "Cruise Control", "Navigation", "Parking Sensors", "Rear Camera", "Heated Seats", "LED / Xenon", "Tow Hitch", "Apple CarPlay", "Android Auto", "Panoramic Roof", "Keyless Entry"].map((v) => (
-            <label key={v} className={styles.chip}>
-              <input type="checkbox" className={styles.check} />
-              <span>{v}</span>
-            </label>
-          ))}
+          <input
+            className={styles.input}
+            type="number"
+            placeholder="From 1"
+            inputMode="numeric"
+            min={1}
+            max={3}
+            value={filters.ownersFrom}
+            onChange={(e) => {
+              const value = clampNumberValue(e.target.value, 1, 3);
+              setFilters((prev) => ({ ...prev, ownersFrom: value }));
+            }}
+          />
+          <input
+            className={styles.input}
+            type="number"
+            placeholder="To 3"
+            inputMode="numeric"
+            min={1}
+            max={3}
+            value={filters.ownersTo}
+            onChange={(e) => {
+              const value = clampNumberValue(e.target.value, 1, 3);
+              setFilters((prev) => ({ ...prev, ownersTo: value }));
+            }}
+          />
         </div>
       </div>
 
       <div className={styles.footer}>
-        <button type="button" className={styles.reset}>
+        <button type="button" className={styles.reset} onClick={handleReset}>
           Reset
         </button>
-        <button type="button" className={styles.apply} onClick={() => onOpenChange(false)}>
+        <button type="button" className={styles.apply} onClick={handleApply}>
           Apply filters
         </button>
       </div>

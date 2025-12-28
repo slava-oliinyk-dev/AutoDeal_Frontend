@@ -1,4 +1,4 @@
-import Modal from "../Ui/Modal/Modal";
+import { Modal } from "../Ui/Modal/Modal";
 import styles from "./Question.module.scss";
 import { useState } from "react";
 import { validateEmail, validateName } from "../../utils/validation";
@@ -13,16 +13,17 @@ type LeadFormState = {
   time: string;
 };
 
+const INITIAL_FORM: LeadFormState = {
+  type: "CAR_SEARCH",
+  name: "",
+  email: "",
+  consultant: "",
+  time: "",
+};
+
 const Question = () => {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState<LeadFormState>({
-    type: "FREE_CONSULTATION",
-    name: "",
-    email: "",
-    consultant: "",
-    time: "",
-  });
-
+  const [form, setForm] = useState<LeadFormState>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,6 +57,8 @@ const Question = () => {
       });
 
       setOpen(true);
+      setForm(INITIAL_FORM);
+      setError(null);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {

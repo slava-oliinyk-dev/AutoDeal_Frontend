@@ -90,10 +90,9 @@
   margin-top: 0.875rem;
 }
 
-.btnPrimary,
-.btnGhost {
+.btnPrimary {
   height: 2.5rem;
-  padding: 0 0.875rem;
+  padding: 0rem 2rem;
   border-radius: 0.75rem;
   font-size: 0.8125rem;
   font-weight: v.$weight-700;
@@ -124,30 +123,7 @@
   box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.25), 0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
 }
 
-.btnGhost {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.92);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.btnGhost:hover {
-  transform: translateY(-0.125rem);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.24);
-}
-
-.btnGhost:active {
-  transform: translateY(0);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.btnGhost:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.18);
-}
-
-.btnPrimary:disabled,
-.btnGhost:disabled {
+.btnPrimary:disabled {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;

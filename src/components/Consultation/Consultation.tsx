@@ -22,9 +22,6 @@ const Consultation = () => {
                 <button className={styles.btnPrimary} type="button">
                   Contact
                 </button>
-                <button className={styles.btnGhost} type="button">
-                  WhatsApp
-                </button>
               </div>
             </figcaption>
           </figure>
@@ -36,9 +33,6 @@ const Consultation = () => {
               <div className={styles.consultantActions}>
                 <button className={styles.btnPrimary} type="button">
                   Contact
-                </button>
-                <button className={styles.btnGhost} type="button">
-                  WhatsApp
                 </button>
               </div>
             </figcaption>

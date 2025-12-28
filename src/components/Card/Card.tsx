@@ -1,5 +1,5 @@
 import styles from "./Card.module.scss";
-import Modal from "../Ui/Modal/Modal";
+import { Modal } from "../Ui/Modal/Modal";
 import { useEffect, useMemo, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Keyboard, Thumbs, FreeMode } from "swiper/modules";
