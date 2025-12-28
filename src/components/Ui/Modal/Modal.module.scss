@@ -11,17 +11,12 @@
   transform: translate(-50%, -50%);
   background: white;
   border-radius: 12px;
-  padding: 1.5rem;
-  width: min(92vw, 420px);
-}
-
-.modalTitle {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
 }
 
 .modalClose {
   position: absolute;
-  top: 0.75rem;
+  top: 0.2rem;
   right: 0.75rem;
+  color: black;
+  font-size: 1.2rem;
 }

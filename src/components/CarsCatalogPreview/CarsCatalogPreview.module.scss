@@ -46,6 +46,13 @@
   transition: transform 240ms ease;
 }
 
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
 .badge {
   position: absolute;
   top: 0.875rem;

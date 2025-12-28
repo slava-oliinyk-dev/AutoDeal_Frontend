@@ -11,6 +11,21 @@
   @include m.flexBetween;
 }
 
+.modalTitle {
+  color: v.$color-black;
+}
+.modalSubtitle {
+  color: v.$color-black;
+  font-weight: v.$weight-400;
+  font-size: 0.9rem;
+}
+.modal {
+  padding: 1.5rem;
+  text-align: center;
+}
+.closeButton {
+  @include m.close-button;
+}
 .info {
   background-color: v.$color-black;
   border-radius: 10px;

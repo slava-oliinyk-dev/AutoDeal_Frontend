@@ -1,6 +1,9 @@
+import { useState } from "react";
+import Modal from "../Ui/Modal/Modal";
 import styles from "./CarSelection.module.scss";
 
 const CarSelection = () => {
+  const [open, setOpen] = useState(false);
   return (
     <section className={styles.selection}>
       <div className={styles.line}></div>
@@ -93,9 +96,20 @@ const CarSelection = () => {
             Contact details
           </label>
           <input id="contactDetails" className={styles.input} type="text" placeholder="Enter your contact details" autoComplete="contact" />
-          <button className={styles.button}>Get a free consultation</button>
+          <button onClick={() => setOpen(true)} className={styles.button}>
+            Get a free consultation
+          </button>
         </div>
       </div>
+      <Modal open={open} onOpenChange={setOpen}>
+        <div className={styles.modal}>
+          <h2 className={styles.modalTitle}>Your consultation is on the way</h2>
+          <h3 className={styles.modalSubtitle}>One of our specialists will contact you shortly using the contact method you selected. Thank you for choosing us.</h3>
+          <button onClick={() => setOpen(false)} className={styles.closeButton}>
+            Close
+          </button>
+        </div>
+      </Modal>
     </section>
   );
 };

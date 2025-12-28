@@ -15,6 +15,11 @@
   padding: 3rem 5rem 4rem 5rem;
 }
 
+.error {
+  margin-bottom: 0.7rem;
+  color: v.$color-orange;
+}
+
 .title {
   color: v.$color-orange;
   font-size: 2rem;
@@ -23,6 +28,24 @@
 .subtitle {
   font-weight: v.$weight-400;
   font-size: 1.06rem;
+}
+
+.close {
+  @include m.close-button;
+}
+
+.modal {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.modalTitle {
+  color: v.$color-black;
+}
+.modalSubtitle {
+  color: v.$color-black;
+  font-weight: v.$weight-400;
+  font-size: 0.9rem;
 }
 
 .button {
@@ -47,23 +70,7 @@
 
 .input,
 .select {
-  width: 100%;
-  padding: 0.4rem 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  background: v.$color-white;
-  color: v.$color-black;
-  font: inherit;
-  outline: none;
-
-  &:focus {
-    border-color: rgba(248, 53, 25, 0.6);
-    box-shadow: 0 0 0 0.2rem rgba(248, 53, 25, 0.18);
-  }
-
-  &::placeholder {
-    color: rgba(0, 0, 0, 0.45);
-  }
+  @include m.modal-input;
 }
 
 .srOnly {
