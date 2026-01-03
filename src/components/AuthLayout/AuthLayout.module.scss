@@ -66,3 +66,25 @@
   font-size: 0.9rem;
   margin-top: -6px;
 }
+
+.close {
+  @include m.close-button;
+}
+
+.modal {
+  padding: 0rem 1.5rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.modalTitle {
+  color: v.$color-black;
+}
+.modalSubtitle {
+  color: v.$color-black;
+  font-weight: v.$weight-400;
+  font-size: 0.9rem;
+}
+
+.button {
+  @include m.glow-button();
+}

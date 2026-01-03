@@ -1,4 +1,5 @@
 const AUTH_STORAGE_KEY = "auth_token";
+const AUTH_ROLE_KEY = "auth_role";
 const AUTH_EVENT = "auth-change";
 
 const emitAuthChange = () => {
@@ -11,19 +12,30 @@ export const getAuthToken = () => {
   return localStorage.getItem(AUTH_STORAGE_KEY);
 };
 
-export const setAuthToken = (token: string) => {
+export const setAuthToken = (token: string, role?: string | null) => {
   if (typeof window === "undefined") return;
   localStorage.setItem(AUTH_STORAGE_KEY, token);
+  if (role) {
+    localStorage.setItem(AUTH_ROLE_KEY, role);
+  }
   emitAuthChange();
 };
 
 export const clearAuthToken = () => {
   if (typeof window === "undefined") return;
   localStorage.removeItem(AUTH_STORAGE_KEY);
+  localStorage.removeItem(AUTH_ROLE_KEY);
   emitAuthChange();
 };
 
 export const isAuthenticated = () => Boolean(getAuthToken());
+
+export const getAuthRole = () => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(AUTH_ROLE_KEY);
+};
+
+export const isAdmin = () => getAuthRole()?.toLowerCase() === "admin";
 
 export const subscribeAuthChange = (listener: () => void) => {
   if (typeof window === "undefined") return () => undefined;

@@ -25,3 +25,8 @@
   @include m.glow-button($py: 0.1rem, $px: 1rem, $glow: 0.3);
   font-size: 0.9rem;
 }
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -5,6 +5,8 @@ type AuthResponse = {
   access_token?: string;
   access?: string;
   refresh?: string;
+  role?: string;
+  user?: { role?: string };
   [key: string]: unknown;
 };
 
@@ -55,4 +57,8 @@ export const registerUser = (input: { name: string; email: string; password: str
 
 export const extractAuthToken = (data: AuthResponse) => {
   return data.token || data.access_token || data.access || null;
+};
+
+export const extractAuthRole = (data: AuthResponse) => {
+  return data.role || data.user?.role || null;
 };

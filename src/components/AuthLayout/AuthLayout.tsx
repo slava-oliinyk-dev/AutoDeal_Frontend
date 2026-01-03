@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateEmail, validateEnglishName, validatePassword } from "../../utils/validation";
-import { loginUser, registerUser, extractAuthToken, AuthApiError } from "../api/auth.api";
+import { loginUser, registerUser, extractAuthToken, extractAuthRole, AuthApiError } from "../api/auth.api";
 import { setAuthToken } from "../../utils/auth";
 import styles from "./AuthLayout.module.scss";
+import { Modal } from "../Ui/Modal/Modal";
 
 type AuthFormState = {
   name: string;
@@ -21,6 +22,7 @@ const INITIAL_FORM: AuthFormState = {
 
 const AuthLayout = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<AuthMode>("login");
   const [form, setForm] = useState<AuthFormState>(INITIAL_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof AuthFormState, string>>>({});
@@ -53,17 +55,22 @@ const AuthLayout = () => {
 
     try {
       const payload = { email: form.email, password: form.password, name: form.name };
-      const response = isRegister
-        ? await registerUser({ email: payload.email, password: payload.password, name: payload.name })
-        : await loginUser({ email: payload.email, password: payload.password });
+      const response = isRegister ? await registerUser({ email: payload.email, password: payload.password, name: payload.name }) : await loginUser({ email: payload.email, password: payload.password });
 
-      const token = extractAuthToken(response) ?? "session";
-      setAuthToken(token);
+      if (!isRegister) {
+        const token = extractAuthToken(response) ?? "session";
+        const role = extractAuthRole(response);
+        setAuthToken(token, role);
+      }
 
       setForm(INITIAL_FORM);
       setErrors({});
 
-      if (!isRegister) navigate("/");
+      if (isRegister) {
+        setOpen(true);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       if (mode === "login" && error instanceof AuthApiError && (error.status === 400 || error.status === 401)) {
         setSubmitError("Invalid email or password");
@@ -142,6 +149,7 @@ const AuthLayout = () => {
                     setForm(INITIAL_FORM);
                     setErrors({});
                     setSubmitError(null);
+                    setOpen(false);
                   }}
                 >
                   Sign in
@@ -158,6 +166,7 @@ const AuthLayout = () => {
                     setForm(INITIAL_FORM);
                     setErrors({});
                     setSubmitError(null);
+                    setOpen(false);
                   }}
                 >
                   Sign up
@@ -167,6 +176,15 @@ const AuthLayout = () => {
           </p>
         </form>
       </div>
+      <Modal open={open} onOpenChange={setOpen} title="Registration success">
+        <div className={styles.modal}>
+          <h2 className={styles.modalTitle}>Check your email</h2>
+          <h3 className={styles.modalSubtitle}>We’ve sent a verification email to your inbox. Please confirm your email address to activate your account.</h3>
+          <button type="button" onClick={() => setOpen(false)} className={styles.close}>
+            Close
+          </button>
+        </div>
+      </Modal>
     </section>
   );
 };

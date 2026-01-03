@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearAuthToken, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
+import { clearAuthToken, isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 import styles from "./Navbar.module.scss";
 import logo from "../../assets/logoCar.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(() => isAuthenticated());
+  const [authState, setAuthState] = useState(() => ({ isLoggedIn: isAuthenticated(), isAdmin: isAdmin() }));
 
   useEffect(() => {
-    const unsubscribe = subscribeAuthChange(() => setIsLoggedIn(isAuthenticated()));
+    const unsubscribe = subscribeAuthChange(() =>
+      setAuthState({ isLoggedIn: isAuthenticated(), isAdmin: isAdmin() })
+    );
     return unsubscribe;
   }, []);
 
   const handleAuthClick = () => {
-    if (isLoggedIn) {
+    if (authState.isLoggedIn) {
       clearAuthToken();
       navigate("/");
       return;
@@ -45,9 +47,21 @@ const Navbar = () => {
             <a href="/consultation">Consultation</a>
           </li>
         </ul>
-        <button className={styles.car_finder} onClick={handleAuthClick}>
-          {isLoggedIn ? "Exit" : "Sign in"}
-        </button>
+        <div className={styles.actions}>
+          {authState.isLoggedIn && authState.isAdmin && (
+            <button
+              className={styles.car_finder}
+              onClick={() => {
+                navigate("/admin");
+              }}
+            >
+              Admin panel
+            </button>
+          )}
+          <button className={styles.car_finder} onClick={handleAuthClick}>
+            {authState.isLoggedIn ? "Exit" : "Sign in"}
+          </button>
+        </div>
       </nav>
     </header>
   );

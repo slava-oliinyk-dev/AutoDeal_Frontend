@@ -12,6 +12,7 @@ import Card from "../Card/Card";
 import Layout from "../Layout/Layout";
 import CarsCatalogPage from "../CarsCatalogPage/CarsCatalogPage";
 import AuthLayout from "../AuthLayout/AuthLayout";
+import AdminPanel from "../AdminPanel/AdminPanel";
 
 const Home = () => (
   <>
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/cars/:id" element={<Card />} />
           <Route path="/catalog" element={<CarsCatalogPage />} />
           <Route path="/auth" element={<AuthLayout />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Route>
       </Routes>
     </Router>
