@@ -3,9 +3,9 @@
 
 .section {
   min-height: 60vh;
-  @include m.flexCenter;
   background-color: rgba(0, 0, 0, 0.03);
   padding: 2rem;
+  color: v.$color-black;
 }
 
 .card {
@@ -14,7 +14,7 @@
   padding: 2rem;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   text-align: center;
-  max-width: 480px;
+  align-items: center;
   width: 100%;
 }
 
@@ -27,4 +27,11 @@
 .message {
   color: v.$color-black;
   font-size: 1rem;
+}
+.access {
+  color: v.$color-black;
+}
+
+.withoutAccess {
+  color: v.$color-black;
 }
