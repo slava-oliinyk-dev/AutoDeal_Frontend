@@ -3,7 +3,7 @@ import { Modal } from "../Ui/Modal/Modal";
 import { useState } from "react";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { sendLead } from "../api/leads.api";
-import { CONSULTANTS } from "../Consultants/Consultants";
+import { useConsultants } from "../Consultants/Consultants";
 
 type Step = "form" | "thanks";
 
@@ -14,6 +14,7 @@ const Consultation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedConsultant, setSelectedConsultant] = useState<string | null>(null);
+  const { consultants, isLoading: isConsultantsLoading, error: consultantsError } = useConsultants();
 
   const resetModalState = () => {
     setStep("form");
@@ -72,7 +73,9 @@ const Consultation = () => {
           Get in touch with us today for a personalized consultation and exclusive offers.
         </h3>
         <div className={styles.consultants}>
-          {CONSULTANTS.map((consultant) => (
+          {isConsultantsLoading && consultants.length === 0 && <p>Loading consultants...</p>}
+          {consultantsError && <p className={styles.error}>{consultantsError}</p>}
+          {consultants.map((consultant) => (
             <figure className={styles.consultant} key={consultant.id}>
               <img src={consultant.photo} alt={`Photo of ${consultant.name}`} />
               <figcaption>

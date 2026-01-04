@@ -4,7 +4,7 @@ import { useState } from "react";
 import { validateEmail, validateName } from "../../utils/validation";
 import { sendLead } from "../api/leads.api";
 import type { LeadType } from "../api/leads.api";
-import { CONSULTANTS } from "../Consultants/Consultants";
+import { useConsultants } from "../Consultants/Consultants";
 
 type LeadFormState = {
   type: LeadType;
@@ -27,6 +27,7 @@ const Question = () => {
   const [form, setForm] = useState<LeadFormState>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { consultants, isLoading: isConsultantsLoading, error: consultantsError } = useConsultants();
 
   const onChange = (key: keyof LeadFormState) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setError(null);
@@ -90,7 +91,17 @@ const Question = () => {
               <option value="" disabled>
                 Choose a consultant
               </option>
-              {CONSULTANTS.map((consultant) => (
+              {isConsultantsLoading && (
+                <option value="" disabled>
+                  Loading consultants...
+                </option>
+              )}
+              {consultantsError && (
+                <option value="" disabled>
+                  {consultantsError}
+                </option>
+              )}
+              {consultants.map((consultant) => (
                 <option key={consultant.id} value={consultant.name}>
                   {consultant.name}
                 </option>
