@@ -69,8 +69,7 @@ export type CarDetails = {
 };
 
 export type CreateCarInput = {
-  photos: string[];
-
+  photos: File[];
   name: string;
   price: string;
   seats?: string;
@@ -114,43 +113,49 @@ export const createCar = async (input: CreateCarInput) => {
   const token = getAuthToken();
   if (!token) throw new Error("No auth token");
 
-  const payload = {
-    photo1: input.photos[0] || null,
-    photo2: input.photos[1] || null,
-    photo3: input.photos[2] || null,
-    photo4: input.photos[3] || null,
-    photo5: input.photos[4] || null,
-
-    name: input.name.trim(),
-    price: input.price.trim(),
-    seats: input.seats?.trim() || undefined,
-    body: input.body?.trim() || undefined,
-    fuel: input.fuel?.trim() || undefined,
-    lot: input.lot?.trim() || undefined,
-    mileage: input.mileage?.trim() || undefined,
-    auction: input.auction?.trim() || undefined,
-    year: input.year?.trim() || undefined,
-    color: input.color?.trim() || undefined,
-    engine: input.engine?.trim() || undefined,
-    drive: input.drive?.trim() || undefined,
-    transmission: input.transmission?.trim() || undefined,
-    state: input.state?.trim() || undefined,
-    owners: input.owners?.trim() || undefined,
-    equipment: input.equipment?.map((item) => item.trim()).filter(Boolean),
-    vin: input.vin?.trim() || undefined,
-    description: input.description?.trim() || undefined,
-    status: input.status?.trim() || undefined,
-    country: input.country?.trim() || undefined,
-    city: input.city?.trim() || undefined,
+  const formData = new FormData();
+  const appendIfPresent = (key: string, value?: string | null) => {
+    if (value && value.trim()) {
+      formData.append(key, value.trim());
+    }
   };
+
+  input.photos.slice(0, 5).forEach((file, index) => {
+    formData.append(`photo${index + 1}`, file);
+  });
+
+  formData.append("name", input.name.trim());
+  formData.append("price", input.price.trim());
+  appendIfPresent("seats", input.seats);
+  appendIfPresent("body", input.body);
+  appendIfPresent("fuel", input.fuel);
+  appendIfPresent("lot", input.lot);
+  appendIfPresent("mileage", input.mileage);
+  appendIfPresent("auction", input.auction);
+  appendIfPresent("year", input.year);
+  appendIfPresent("color", input.color);
+  appendIfPresent("engine", input.engine);
+  appendIfPresent("drive", input.drive);
+  appendIfPresent("transmission", input.transmission);
+  appendIfPresent("state", input.state);
+  appendIfPresent("owners", input.owners);
+  appendIfPresent("vin", input.vin);
+  appendIfPresent("description", input.description);
+  appendIfPresent("status", input.status);
+  appendIfPresent("country", input.country);
+  appendIfPresent("city", input.city);
+
+  const equipment = input.equipment?.map((item) => item.trim()).filter(Boolean);
+  if (equipment && equipment.length > 0) {
+    formData.append("equipment", JSON.stringify(equipment));
+  }
 
   const res = await fetch(`${BACKEND}/cars/`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(payload),
+    body: formData,
   });
 
   if (!res.ok) {

@@ -20,8 +20,7 @@ const AdminPanel = () => {
   const [formError, setFormError] = useState<string | null>(null);
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [photosLoading, setPhotosLoading] = useState(false);
-  const [photoStrings, setPhotoStrings] = useState<string[]>([]);
+  const [photoFiles, setPhotoFiles] = useState<File[]>([]);
   const [authState, setAuthState] = useState(() => ({
     authed: isAuthenticated(),
     admin: isAdmin(),
@@ -121,48 +120,21 @@ const AdminPanel = () => {
       country: "",
       city: "",
     });
-    setPhotoStrings([]);
-    setPhotosLoading(false);
+    setPhotoFiles([]);
   };
 
-  const handlePhotosChange = async (files: FileList | null) => {
+  const handlePhotosChange = (files: FileList | null) => {
     if (!files) return;
 
     const selected = Array.from(files).slice(0, 5);
-    if (selected.length === 0) {
-      setPhotoStrings([]);
-      return;
-    }
-
-    setPhotosLoading(true);
     setFormError(null);
     setFormSuccess(null);
 
-    try {
-      const encoded = await Promise.all(
-        selected.map(
-          (file) =>
-            new Promise<string>((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = () => {
-                const result = typeof reader.result === "string" ? reader.result : "";
-                resolve(result);
-              };
-              reader.onerror = () => reject(new Error("Cannot read file"));
-              reader.readAsDataURL(file);
-            })
-        )
-      );
-      setPhotoStrings(encoded);
-    } catch (e) {
-      setFormError(e instanceof Error ? e.message : "Failed to read images");
-    } finally {
-      setPhotosLoading(false);
-    }
+    setPhotoFiles(selected);
   };
 
   const validateForm = () => {
-    if (photoStrings.length === 0) return "Добавьте хотя бы одно фото";
+    if (photoFiles.length === 0) return "Добавьте хотя бы одно фото";
     if (!formState.name.trim()) return "Введите название автомобиля";
     if (!formState.price.trim()) return "Введите цену";
     if (formState.price && !/^\d+(\.\d+)?$/.test(formState.price.trim())) return "Цена должна быть числом";
@@ -189,7 +161,7 @@ const AdminPanel = () => {
     try {
       setSubmitting(true);
       await createCar({
-        photos: photoStrings,
+        photos: photoFiles,
         name: formState.name,
         price: formState.price,
         seats: formState.seats,
@@ -303,8 +275,7 @@ const AdminPanel = () => {
                 <label className={styles.formField}>
                   <span>Фото (до 5)</span>
                   <input type="file" accept="image/*" multiple onChange={(e) => handlePhotosChange(e.target.files)} />
-                  <small className={styles.formHelp}>Будут отправлены как base64-строки.</small>
-                  {photoStrings.length > 0 && <small className={styles.formHelp}>Выбрано файлов: {photoStrings.length}</small>}
+                  {photoFiles.length > 0 && <small className={styles.formHelp}>Выбрано файлов: {photoFiles.length}</small>}
                 </label>
 
                 <label className={styles.formField}>
@@ -416,8 +387,8 @@ const AdminPanel = () => {
                   <span>Описание</span>
                   <textarea rows={4} placeholder="Краткое описание..." value={formState.description} onChange={(e) => setFormState((s) => ({ ...s, description: e.target.value }))} />
                 </label>
-                <button className={styles.buttonAdd} type="submit" disabled={submitting || photosLoading}>
-                  {submitting ? "Отправка..." : photosLoading ? "Подготовка фото..." : "Добавить"}
+                <button className={styles.buttonAdd} type="submit" disabled={submitting}>
+                  {submitting ? "Отправка..." : "Добавить"}
                 </button>
               </form>
             )}
