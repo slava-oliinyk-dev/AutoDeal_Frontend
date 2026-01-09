@@ -39,6 +39,7 @@
 .modal {
   padding: 1.5rem;
   text-align: center;
+  width: 31.25rem;
 }
 
 .modalTitle {
@@ -116,5 +117,14 @@
   .question {
     background-image: -webkit-image-set(url("../../assets/question/questionBack800X1.jpg") 1x, url("../../assets/question/questionBack800X2.jpg") 2x);
     background-image: image-set(url("../../assets/question/questionBack800X1.jpg") 1x, url("../../assets/question/questionBack800X2.jpg") 2x);
+  }
+  .modal {
+    width: 23rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .modal {
+    width: 18rem;
   }
 }

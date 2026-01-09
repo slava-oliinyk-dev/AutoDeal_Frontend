@@ -9,11 +9,12 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "swiper/css/free-mode";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { sendLead } from "../api/leads.api";
-import { getCarById, type CarDetails } from "../api/cars.api";
+import { deleteCarById, getCarById, type CarDetails } from "../api/cars.api";
 import { withBackendUrl } from "../../utils/media";
+import { isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 
 type Step = "form" | "thanks";
 
@@ -24,11 +25,27 @@ const Card = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFsOpen, setIsFsOpen] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [car, setCar] = useState<CarDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authState, setAuthState] = useState(() => ({
+    authed: isAuthenticated(),
+    admin: isAdmin(),
+  }));
+
+  useEffect(() => {
+    const unsubscribe = subscribeAuthChange(() =>
+      setAuthState({
+        authed: isAuthenticated(),
+        admin: isAdmin(),
+      })
+    );
+
+    return unsubscribe;
+  }, []);
 
   const resetModalState = () => {
     setStep("form");
@@ -106,6 +123,18 @@ const Card = () => {
       }
     })();
   }, [id]);
+
+  const handleDelete = async () => {
+    if (!car) return;
+    try {
+      await deleteCarById(car.id);
+      navigate("/catalog");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Unknown error");
+    }
+  };
+
+  const canDelete = authState.authed && authState.admin;
 
   const photos = useMemo(() => {
     if (!car) return [];
@@ -267,6 +296,11 @@ const Card = () => {
               >
                 Get Consultation
               </button>
+              {canDelete && (
+                <button className={styles.btnDanger} type="button" onClick={handleDelete}>
+                  Delete
+                </button>
+              )}
             </div>
 
             <div className={styles.note}>Usually replies within 15–30 minutes during working hours.</div>

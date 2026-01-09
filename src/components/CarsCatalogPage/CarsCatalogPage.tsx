@@ -2,11 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import styles from "./CarsCatalogPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import CarsCatalogFiltersModal from "./CarsCatalogFiltersModal";
-import { getCars, getFilteredCars, type CarListItem } from "../api/cars.api";
+import { deleteCarById, getCars, getFilteredCars, type CarListItem } from "../api/cars.api";
 import { sendLead } from "../api/leads.api";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { Modal } from "../Ui/Modal/Modal";
 import { firstPhotoUrl } from "../../utils/media";
+import { isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 
 type ContactStep = "form" | "thanks";
 const PAGE_SIZE = 9;
@@ -26,6 +27,21 @@ const CarsCatalogPage = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
+  const [authState, setAuthState] = useState(() => ({
+    authed: isAuthenticated(),
+    admin: isAdmin(),
+  }));
+
+  useEffect(() => {
+    const unsubscribe = subscribeAuthChange(() =>
+      setAuthState({
+        authed: isAuthenticated(),
+        admin: isAdmin(),
+      })
+    );
+
+    return unsubscribe;
+  }, []);
 
   const loadFirstPage = useCallback(async (cancelled?: { current: boolean }) => {
     try {
@@ -144,6 +160,17 @@ const CarsCatalogPage = () => {
       setLoading(false);
     }
   };
+
+  const handleDelete = async (carId: string | number) => {
+    try {
+      await deleteCarById(carId);
+      setCars((prev) => prev.filter((car) => car.id !== carId));
+    } catch (e) {
+      setFetchError(e instanceof Error ? e.message : "Unknown error");
+    }
+  };
+
+  const canDelete = authState.authed && authState.admin;
   if (loading) return <div className={styles.container}>Loading...</div>;
   if (fetchError) return <div className={styles.container}>Error: {fetchError}</div>;
 
@@ -239,6 +266,18 @@ const CarsCatalogPage = () => {
                         >
                           Details
                         </button>
+                        {canDelete && (
+                          <button
+                            className={styles.btnDanger}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              void handleDelete(car.id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -281,23 +281,45 @@
   font-weight: v.$weight-700;
   cursor: pointer;
   transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease, opacity 120ms ease;
-}
-
-.btnPrimary {
   border: none;
   background: v.$color-black;
   color: v.$color-white;
   box-shadow: 0 0.75rem 1.625rem rgba(0, 0, 0, 0.18);
 }
 
+.btnDanger {
+  border: 1px solid rgba(207, 45, 45, 0.35);
+  background: rgba(207, 45, 45, 0.12);
+  color: rgba(17, 17, 17, 0.9);
+  border-radius: 14px;
+  padding: 0.75rem 0.875rem;
+  font-weight: v.$weight-700;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
 .btnPrimary:hover {
   transform: translateY(-0.0625rem);
   box-shadow: 0 1rem 2.125rem rgba(0, 0, 0, 0.22);
+}
+.btnDanger:hover {
+  transform: translateY(-0.0625rem);
+  background: rgba(207, 45, 45, 0.2);
+  border-color: rgba(207, 45, 45, 0.6);
+}
+
+.btnDanger:active {
+  transform: translateY(0);
+  background: rgba(207, 45, 45, 0.16);
 }
 
 .btnPrimary:focus-visible,
 .linkBtn:focus-visible {
   outline: 0.1875rem solid rgba(17, 17, 17, 0.25);
+  outline-offset: 0.125rem;
+}
+.btnDanger:focus-visible {
+  outline: 0.1875rem solid rgba(207, 45, 45, 0.35);
   outline-offset: 0.125rem;
 }
 

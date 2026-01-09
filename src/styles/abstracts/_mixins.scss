@@ -106,3 +106,27 @@
   font-size: 2.5rem;
   margin-bottom: 0.625rem;
 }
+
+@mixin btn-variant($rgb, $text-color: v.$color-white) {
+  background: rgba($rgb, 0.12);
+  color: $text-color;
+  border-color: rgba($rgb, 0.4);
+  border-radius: 10%;
+  padding: 0.5rem;
+
+  &:hover {
+    transform: translateY(-0.125rem);
+    background: rgba($rgb, 0.2);
+    border-color: rgba($rgb, 0.6);
+  }
+
+  &:active {
+    transform: translateY(0);
+    background: rgba($rgb, 0.16);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.1875rem rgba($rgb, 0.35);
+  }
+}

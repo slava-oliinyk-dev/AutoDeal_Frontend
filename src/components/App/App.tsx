@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import "./App.scss";
 import Hero from "../Hero/Hero";
 import AutomotiveBrand from "../AutomotiveBrand/AutomotiveBrand";
@@ -13,19 +13,38 @@ import Layout from "../Layout/Layout";
 import CarsCatalogPage from "../CarsCatalogPage/CarsCatalogPage";
 import AuthLayout from "../AuthLayout/AuthLayout";
 import AdminPanel from "../AdminPanel/AdminPanel";
+import { useEffect } from "react";
 
-const Home = () => (
-  <>
-    <Hero />
-    <AutomotiveBrand />
-    <Advantage />
-    <CarsCatalogPreview />
-    <Consultation />
-    <Review />
-    <Question />
-    <CarSelection />
-  </>
-);
+const Home = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    const targetId = state?.scrollTo ?? location.hash.replace("#", "");
+
+    if (!targetId) return;
+
+    requestAnimationFrame(() => {
+      const section = document.getElementById(targetId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  }, [location]);
+
+  return (
+    <>
+      <Hero />
+      <AutomotiveBrand />
+      <Advantage />
+      <CarsCatalogPreview />
+      <Consultation />
+      <Review />
+      <Question />
+      <CarSelection />
+    </>
+  );
+};
 
 export default function App() {
   return (

@@ -172,3 +172,19 @@ export const createCar = async (input: CreateCarInput) => {
     return null;
   }
 };
+export const deleteCarById = async (id: string | number) => {
+  const token = getAuthToken();
+  if (!token) throw new Error("No auth token");
+
+  const res = await fetch(`${BACKEND}/cars/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(text || `Request failed: ${res.status}`);
+  }
+};

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import type { MouseEvent } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { clearAuthToken, isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 import styles from "./Navbar.module.scss";
 import logo from "../../assets/logoCar.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [authState, setAuthState] = useState(() => ({ isLoggedIn: isAuthenticated(), isAdmin: isAdmin() }));
 
@@ -24,6 +26,33 @@ const Navbar = () => {
     navigate("/auth");
   };
 
+  const handleHomeClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsMenuOpen(false);
+
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: "top" } });
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSectionClick = (sectionId: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setIsMenuOpen(false);
+
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: sectionId } });
+      return;
+    }
+
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <header>
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""}`}>
@@ -40,7 +69,7 @@ const Navbar = () => {
         <div className={styles.menuWrapper}>
           <ul className={styles.menu}>
             <li>
-              <a href="/" onClick={() => setIsMenuOpen(false)}>
+              <a href="/" onClick={handleHomeClick}>
                 Home
               </a>
             </li>
@@ -50,17 +79,17 @@ const Navbar = () => {
               </a>
             </li>
             <li>
-              <a href="/reviews" onClick={() => setIsMenuOpen(false)}>
+              <a href="#reviews" onClick={handleSectionClick("review")}>
                 Reviews
               </a>
             </li>
             <li>
-              <a href="/contacts" onClick={() => setIsMenuOpen(false)}>
+              <a href="#consultation" onClick={handleSectionClick("consultation")}>
                 Contacts
               </a>
             </li>
             <li>
-              <a href="/consultation" onClick={() => setIsMenuOpen(false)}>
+              <a href="#question" onClick={handleSectionClick("question")}>
                 Consultation
               </a>
             </li>

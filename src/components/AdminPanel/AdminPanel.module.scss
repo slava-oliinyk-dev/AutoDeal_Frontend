@@ -180,3 +180,9 @@
   font-weight: 600;
   text-align: left;
 }
+
+@media (max-width: 600px) {
+  .section {
+    padding: 0.5rem;
+  }
+}

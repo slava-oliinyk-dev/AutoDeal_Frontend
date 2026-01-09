@@ -24,6 +24,7 @@
 .modal {
   padding: 1.5rem;
   text-align: center;
+  width: 31.25rem;
 }
 .closeButton {
   @include m.close-button;
@@ -156,10 +157,16 @@
       padding: 1.5rem 2.5rem 2.5rem 2.5rem;
     }
   }
+  .modal {
+    width: 23rem;
+  }
 }
 
 @media (max-width: 400px) {
   .container {
     padding: 1rem 2rem 2rem 2rem;
+  }
+  .modal {
+    width: 18rem;
   }
 }

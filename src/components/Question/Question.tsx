@@ -68,7 +68,7 @@ const Question = () => {
   };
 
   return (
-    <section className={styles.question}>
+    <section className={styles.question} id="question">
       <div className={styles.container}>
         <h2 className={styles.title}>Have questions? Get a free consultation</h2>
         <h3 className={styles.subtitle}>Our manager will call you back and answer all your questions.</h3>

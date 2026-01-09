@@ -13,6 +13,7 @@
 .modal {
   padding: 1.5rem;
   text-align: center;
+  width: 31.25rem;
 }
 
 .modalCloseButton {
@@ -252,4 +253,41 @@
   display: block;
   margin: 40px auto 0;
   @include m.glow-button();
+}
+
+.btnDanger {
+  @include m.btn-variant(rgb(255, 77, 77));
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 775px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 2.5rem 2.5rem 2.5rem;
+  }
+  .modal {
+    width: 23rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .title {
+    font-weight: v.$weight-400;
+  }
+  .container {
+    padding: 1rem 2rem 2rem 2rem;
+  }
+  .modal {
+    width: 18rem;
+  }
 }

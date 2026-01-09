@@ -1,13 +1,19 @@
 import styles from "./CarsCatalogPreview.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCars, type CarListItem } from "../api/cars.api";
+import { deleteCarById, getCars, type CarListItem } from "../api/cars.api";
 import { sendLead } from "../api/leads.api";
 import { Modal } from "../Ui/Modal/Modal";
 import { normalizeEmail, validateEmail } from "../../utils/validation";
 import { firstPhotoUrl } from "../../utils/media";
+import { isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 
 type Step = "form" | "thanks";
+
+const getPageSize = () => {
+  if (typeof window === "undefined") return 6;
+  return window.matchMedia("(max-width: 800px)").matches ? 3 : 6;
+};
 
 const Catalog = () => {
   const navigate = useNavigate();
@@ -19,6 +25,36 @@ const Catalog = () => {
   const [error, setError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [pageSize, setPageSize] = useState(getPageSize);
+  const [authState, setAuthState] = useState(() => ({
+    authed: isAuthenticated(),
+    admin: isAdmin(),
+  }));
+
+  useEffect(() => {
+    const unsubscribe = subscribeAuthChange(() =>
+      setAuthState({
+        authed: isAuthenticated(),
+        admin: isAdmin(),
+      })
+    );
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mql = window.matchMedia("(max-width: 800px)");
+
+    const update = () => setPageSize(mql.matches ? 3 : 6);
+    update();
+
+    const onChange = (e: MediaQueryListEvent) => setPageSize(e.matches ? 3 : 6);
+
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
 
   const resetModalState = () => {
     setStep("form");
@@ -80,7 +116,7 @@ const Catalog = () => {
         setLoading(true);
         setError(null);
 
-        const data = await getCars({ limit: 6, offset: 0 });
+        const data = await getCars({ limit: pageSize, offset: 0 });
 
         if (!cancelled) setCars(data);
       } catch (e) {
@@ -94,7 +130,18 @@ const Catalog = () => {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [pageSize]);
+
+  const handleDelete = async (carId: string | number) => {
+    try {
+      await deleteCarById(carId);
+      setCars((prev) => prev.filter((car) => car.id !== carId));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Unknown error");
+    }
+  };
+
+  const canDelete = authState.authed && authState.admin;
 
   if (loading) return <div className={styles.container}>Loading...</div>;
   if (error) return <div className={styles.container}>Error: {error}</div>;
@@ -170,6 +217,18 @@ const Catalog = () => {
                       <button className={styles.btnGhost} type="button" onClick={(e) => {}}>
                         Details
                       </button>
+                      {canDelete && (
+                        <button
+                          className={styles.btnDanger}
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            void handleDelete(car.id);
+                          }}
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

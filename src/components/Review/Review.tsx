@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 
 const Review = () => {
   return (
-    <section className={styles.review}>
+    <section className={styles.review} id="review">
       <div className={styles.line} />
       <div className={styles.container}>
         <h2 className={styles.title}>Reviews</h2>

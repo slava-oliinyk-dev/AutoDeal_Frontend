@@ -64,7 +64,7 @@ const Consultation = () => {
   };
 
   return (
-    <section className={styles.consultation}>
+    <section className={styles.consultation} id="consultation">
       <div className={styles.line}></div>
       <div className={styles.container}>
         <h2 className={styles.title}>Expert Consultation</h2>
