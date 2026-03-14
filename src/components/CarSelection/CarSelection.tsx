@@ -144,6 +144,8 @@ const CarSelection = () => {
           </label>
           <input id="contactMethod" className={styles.input} type="email" placeholder="Enter your email" value={form.email} autoComplete="email" onChange={onChange("email")}></input>
 
+          {error && <p className={styles.error}>{error}</p>}
+
           <button disabled={isSubmitting} className={styles.button} type="submit">
             {isSubmitting ? "Sending..." : "Get a free consultation"}
           </button>

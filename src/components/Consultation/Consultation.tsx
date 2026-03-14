@@ -77,7 +77,7 @@ const Consultation = () => {
           {consultantsError && <p className={styles.error}>{consultantsError}</p>}
           {consultants.map((consultant) => (
             <figure className={styles.consultant} key={consultant.id}>
-              <img src={consultant.photo} alt={`Photo of ${consultant.name}`} />
+              <img src={consultant.photo} alt={consultant.name} />
               <figcaption>
                 <p className={styles.name}>{consultant.name}</p>
                 <p className={styles.role}>{consultant.role}</p>
