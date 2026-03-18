@@ -26,6 +26,7 @@ const CarsCatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [authState, setAuthState] = useState(() => ({
     authed: isAuthenticated(),
@@ -163,10 +164,11 @@ const CarsCatalogPage = () => {
 
   const handleDelete = async (carId: string | number) => {
     try {
+      setDeleteError(null);
       await deleteCarById(carId);
       setCars((prev) => prev.filter((car) => car.id !== carId));
     } catch (e) {
-      setFetchError(e instanceof Error ? e.message : "Unknown error");
+      setDeleteError(e instanceof Error ? e.message : "Не удалось удалить автомобиль. Попробуйте снова.");
     }
   };
 
@@ -185,6 +187,8 @@ const CarsCatalogPage = () => {
         </div>
 
         <CarsCatalogFiltersModal open={filtersOpen} onOpenChange={setFiltersOpen} onApply={handleApplyFilters} />
+
+        {deleteError && <div className={styles.error}>{deleteError}</div>}
 
         {cars.length === 0 && isFiltered ? (
           <div className={styles.emptyState} role="status">

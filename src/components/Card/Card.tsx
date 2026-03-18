@@ -28,7 +28,9 @@ const Card = () => {
   const navigate = useNavigate();
   const [car, setCar] = useState<CarDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [pageError, setPageError] = useState<string | null>(null);
+  const [contactError, setContactError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authState, setAuthState] = useState(() => ({
@@ -50,7 +52,7 @@ const Card = () => {
   const resetModalState = () => {
     setStep("form");
     setEmail("");
-    setError(null);
+    setContactError(null);
     setIsSubmitting(false);
   };
 
@@ -62,7 +64,7 @@ const Card = () => {
   const openModalForCar = (car: CarDetails) => {
     setStep("form");
     setEmail("");
-    setError(null);
+    setContactError(null);
     setIsSubmitting(false);
 
     setCar(car);
@@ -72,11 +74,11 @@ const Card = () => {
   const handleSubmit = async () => {
     if (isSubmitting) return;
 
-    setError(null);
+    setContactError(null);
 
     const emailError = validateEmail(email);
     if (emailError) {
-      setError(emailError);
+      setContactError(emailError);
       return;
     }
 
@@ -92,7 +94,7 @@ const Card = () => {
       setStep("thanks");
       setEmail("");
     } catch {
-      setError("Something went wrong. Please try again.");
+      setContactError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -113,11 +115,11 @@ const Card = () => {
     (async () => {
       try {
         setLoading(true);
-        setError(null);
+        setPageError(null);
         const data = await getCarById(id);
         setCar(data);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Unknown error");
+        setPageError(e instanceof Error ? e.message : "Unknown error");
       } finally {
         setLoading(false);
       }
@@ -130,7 +132,7 @@ const Card = () => {
       await deleteCarById(car.id);
       navigate("/catalog");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Unknown error");
+      setDeleteError(e instanceof Error ? e.message : "Не удалось удалить автомобиль. Попробуйте снова.");
     }
   };
 
@@ -142,7 +144,7 @@ const Card = () => {
   }, [car]);
 
   if (loading) return <div className={styles.container}>Loading...</div>;
-  if (error) return <div className={styles.container}>Error: {error}</div>;
+  if (pageError) return <div className={styles.container}>Error: {pageError}</div>;
   if (!car) return <div className={styles.container}>Not found</div>;
 
   return (
@@ -297,9 +299,19 @@ const Card = () => {
                 Get Consultation
               </button>
               {canDelete && (
-                <button className={styles.btnDanger} type="button" onClick={handleDelete}>
-                  Delete
-                </button>
+                <>
+                  <button
+                    className={styles.btnDanger}
+                    type="button"
+                    onClick={() => {
+                      setDeleteError(null);
+                      void handleDelete();
+                    }}
+                  >
+                    Delete
+                  </button>
+                  {deleteError && <p className={styles.error}>{deleteError}</p>}
+                </>
               )}
             </div>
 
@@ -323,7 +335,7 @@ const Card = () => {
 
             <input className={styles.modalInput} type="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting} />
 
-            {error && <p className={styles.error}>{error}</p>}
+            {contactError && <p className={styles.error}>{contactError}</p>}
 
             <div className={styles.modalButtonContainer}>
               <button type="button" onClick={() => handleOpenChange(false)} className={styles.close} disabled={isSubmitting}>

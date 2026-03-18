@@ -23,6 +23,7 @@ const Catalog = () => {
   const [cars, setCars] = useState<CarListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pageSize, setPageSize] = useState(getPageSize);
@@ -134,10 +135,11 @@ const Catalog = () => {
 
   const handleDelete = async (carId: string | number) => {
     try {
+      setDeleteError(null);
       await deleteCarById(carId);
       setCars((prev) => prev.filter((car) => car.id !== carId));
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Unknown error");
+      setDeleteError(e instanceof Error ? e.message : "Не удалось удалить автомобиль. Попробуйте снова.");
     }
   };
 
@@ -151,6 +153,8 @@ const Catalog = () => {
       <div className={styles.line}></div>
       <div className={styles.container}>
         <h2 className={styles.title}>Catalog</h2>
+
+        {deleteError && <div className={styles.error}>{deleteError}</div>}
 
         <div className={styles.grid}>
           {cars.map((car) => {

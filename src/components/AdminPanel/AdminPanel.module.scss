@@ -166,13 +166,45 @@
   color: v.$color-black;
   font-weight: 600;
 
-  input {
+  input,
+  select,
+  textarea {
     padding: 0.65rem 0.75rem;
     border-radius: 8px;
     border: 1px solid rgba(0, 0, 0, 0.15);
     background-color: rgba(0, 0, 0, 0.04);
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.8);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: rgba(v.$color-orange, 0.75);
+      box-shadow: 0 0 0 3px rgba(v.$color-orange, 0.12);
+    }
+
+    &[aria-invalid="true"] {
+      border-color: #d93025;
+      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.12);
+    }
   }
+
+  textarea {
+    min-height: 96px;
+    resize: vertical;
+  }
+}
+
+.formHelp {
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.fieldError {
+  color: #d93025;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .consultantTab {
