@@ -1,24 +1,19 @@
-# ===== Dependencies =====
 node_modules/
 
-# ===== Build output =====
 dist/
 build/
 out/
 coverage/
 
-# ===== Caches =====
 .cache/
 .parcel-cache/
 .eslintcache
 *.tsbuildinfo
 
-# ===== Env / secrets =====
 .env
 .env.*
 !.env.example
 
-# ===== Logs =====
 logs/
 *.log
 npm-debug.log*
@@ -26,7 +21,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# ===== IDE =====
 .vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -34,11 +28,9 @@ pnpm-debug.log*
 .idea/
 *.iml
 
-# ===== OS =====
 .DS_Store
 Thumbs.db
 
-# ===== Local temp =====
 tmp/
 temp/
 *.swp

@@ -127,11 +127,15 @@
   color: v.$color-black;
 }
 .card {
+  display: flex;
+  flex-direction: column;
   border-radius: 1.125rem;
   overflow: hidden;
   background: v.$color-black;
   border: 0.0125rem solid rgba(243, 239, 239, 0.755);
-  box-shadow: 0 0.625rem 0.9375rem rgba(0, 0, 0, 0.55), inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 0.625rem 0.9375rem rgba(0, 0, 0, 0.55),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.05);
   transform: translateZ(0);
   cursor: pointer;
 }
@@ -166,6 +170,9 @@
 }
 
 .body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
   padding: 1.125rem;
 }
 
@@ -208,6 +215,7 @@
 .bottom {
   @include m.flexBetween;
   gap: 0.75rem;
+  margin-top: auto;
   padding-top: 0.875rem;
 }
 
@@ -259,7 +267,9 @@
 
 .btnPrimary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 0.1875rem rgba(255, 255, 255, 0.25), 0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 0 0 0.1875rem rgba(255, 255, 255, 0.25),
+    0 0.75rem 1.5rem rgba(0, 0, 0, 0.35);
 }
 
 .btnGhost:hover {
