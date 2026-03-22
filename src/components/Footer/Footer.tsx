@@ -1,41 +1,49 @@
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Footer.module.scss";
 import logo from "../../assets/logoCar.png";
+import { createHomeNavigationHandler } from "../../utils/navigation";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleSectionNavigation = createHomeNavigationHandler(navigate, location);
+
   return (
     <footer className={styles.footer}>
       <div className={styles.line} />
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            <img className={styles.logo} src={logo} alt="Logo" />
+            <a className={styles.logoLink} href="/" onClick={handleSectionNavigation("top")}>
+              <img className={styles.logo} src={logo} alt="AutoDeal logo" />
+            </a>
           </div>
 
           <nav className={styles.col} aria-label="Footer menu">
             <h4 className={styles.title}>Menu</h4>
             <ul className={styles.list}>
               <li>
-                <a className={styles.link} href="#home">
+                <a className={styles.link} href="/" onClick={handleSectionNavigation("top")}>
                   Home
                 </a>
               </li>
               <li>
-                <a className={styles.link} href="#catalog">
+                <Link className={styles.link} to="/catalog">
                   Catalog
-                </a>
+                </Link>
               </li>
               <li>
-                <a className={styles.link} href="#reviews">
+                <a className={styles.link} href="#review" onClick={handleSectionNavigation("review")}>
                   Reviews
                 </a>
               </li>
               <li>
-                <a className={styles.link} href="#contacts">
+                <a className={styles.link} href="#consultation" onClick={handleSectionNavigation("consultation")}>
                   Contacts
                 </a>
               </li>
               <li>
-                <a className={styles.link} href="#consultation">
+                <a className={styles.link} href="#question" onClick={handleSectionNavigation("question")}>
                   Consultation
                 </a>
               </li>
@@ -54,17 +62,13 @@ const Footer = () => {
 
         <div className={styles.bottom}>
           <div className={styles.legal}>
-            <a className={styles.link} href="#privacy">
+            <Link className={styles.link} to="/privacy-policy">
               Privacy Policy
-            </a>
+            </Link>
             <span className={styles.dot}>•</span>
-            <a className={styles.link} href="#terms">
+            <Link className={styles.link} to="/terms-and-conditions">
               Terms & Conditions
-            </a>
-            <span className={styles.dot}>•</span>
-            <a className={styles.link} href="#imprint">
-              Imprint
-            </a>
+            </Link>
           </div>
 
           <div className={styles.copy}>© {new Date().getFullYear()} All rights reserved.</div>

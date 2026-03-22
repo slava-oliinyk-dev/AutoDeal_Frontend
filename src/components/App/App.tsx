@@ -14,6 +14,9 @@ import CarsCatalogPage from "../CarsCatalogPage/CarsCatalogPage";
 import AuthLayout from "../AuthLayout/AuthLayout";
 import AdminPanel from "../AdminPanel/AdminPanel";
 import { useEffect } from "react";
+import PrivacyPolicyPage from "../LegalDocument/PrivacyPolicyPage";
+import TermsConditionsPage from "../LegalDocument/TermsConditionsPage";
+import { scrollToSection } from "../../utils/navigation";
 
 const Home = () => {
   const location = useLocation();
@@ -25,10 +28,12 @@ const Home = () => {
     if (!targetId) return;
 
     requestAnimationFrame(() => {
-      const section = document.getElementById(targetId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (targetId === "top") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
       }
+
+      scrollToSection(targetId);
     });
   }, [location]);
 
@@ -54,6 +59,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cars/:id" element={<Card />} />
           <Route path="/catalog" element={<CarsCatalogPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
           <Route path="/auth" element={<AuthLayout />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Route>

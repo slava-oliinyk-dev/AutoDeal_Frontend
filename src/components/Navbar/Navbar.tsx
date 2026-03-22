@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import type { MouseEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { clearAuthToken, isAdmin, isAuthenticated, subscribeAuthChange } from "../../utils/auth";
 import styles from "./Navbar.module.scss";
 import logo from "../../assets/logoCar.png";
+import { createHomeNavigationHandler } from "../../utils/navigation";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -26,32 +26,9 @@ const Navbar = () => {
     navigate("/auth");
   };
 
-  const handleHomeClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    setIsMenuOpen(false);
-
-    if (location.pathname !== "/") {
-      navigate("/", { state: { scrollTo: "top" } });
-      return;
-    }
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleSectionClick = (sectionId: string) => (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    setIsMenuOpen(false);
-
-    if (location.pathname !== "/") {
-      navigate("/", { state: { scrollTo: sectionId } });
-      return;
-    }
-
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const handleSectionNavigation = createHomeNavigationHandler(navigate, location, () => setIsMenuOpen(false));
+  const handleHomeClick = handleSectionNavigation("top");
+  const handleSectionClick = (sectionId: string) => handleSectionNavigation(sectionId);
 
   return (
     <header>

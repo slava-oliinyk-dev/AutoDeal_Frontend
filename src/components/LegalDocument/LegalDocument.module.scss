@@ -1,0 +1,61 @@
+@use "../../styles/abstracts/mixins" as m;
+@use "../../styles/abstracts/_variables" as v;
+
+.page {
+  background: v.$color-black;
+  color: v.$color-white;
+  min-height: 100%;
+  padding: 3rem 0 5rem;
+}
+
+.container {
+  @include m.container;
+  padding: 0 5rem;
+}
+
+.title {
+  margin: 0 0 2rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.content {
+  display: grid;
+  gap: 2rem;
+}
+
+.section {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  color: v.$color-orange;
+}
+
+.paragraph {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding: 2rem 0 3rem;
+  }
+
+  .container {
+    padding: 0 2rem;
+  }
+
+  .section {
+    padding: 1.25rem;
+    border-radius: 1rem;
+  }
+}
