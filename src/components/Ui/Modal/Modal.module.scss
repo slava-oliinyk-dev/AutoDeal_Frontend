@@ -2,6 +2,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modalContent {
@@ -11,6 +12,10 @@
   transform: translate(-50%, -50%);
   background: white;
   border-radius: 0.8rem;
+  z-index: 1001;
+  width: min(92vw, 36rem);
+  max-height: 92vh;
+  overflow: auto;
 }
 
 .modalClose {
@@ -19,4 +24,5 @@
   right: 0.75rem;
   color: black;
   font-size: 1.2rem;
+  z-index: 1;
 }

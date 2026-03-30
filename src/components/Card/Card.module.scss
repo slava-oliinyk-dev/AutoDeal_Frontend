@@ -394,3 +394,90 @@
 .close {
   @include m.close-button;
 }
+
+@media (max-width: 75rem) {
+  .container {
+    padding: 2rem 2rem 3rem;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .photos {
+    order: 1;
+  }
+
+  .content {
+    order: 2;
+  }
+}
+
+@media (max-width: 48rem) {
+  .card {
+    padding-top: 0.75rem;
+  }
+
+  .container {
+    padding: 1rem 1rem 2rem;
+    gap: 1rem;
+  }
+
+  .swiper {
+    border-radius: 14px;
+  }
+
+  .thumbs {
+    margin-top: 0.5rem;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .status {
+    align-self: flex-start;
+  }
+
+  .specs,
+  .purchase {
+    border-radius: 14px;
+    padding: 0.875rem;
+  }
+
+  .specRow {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .specValue,
+  .specValueMono {
+    text-align: left;
+  }
+
+  .priceRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .modal {
+    padding: 1.125rem;
+  }
+
+  .modalButtonContainer {
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .close,
+  .modalSubmitButton,
+  .modalCloseButton {
+    width: 100%;
+  }
+
+  .galleryModalContent {
+    width: 96vw;
+    height: min(75vh, 34rem);
+    padding: 0.5rem;
+  }
+}
